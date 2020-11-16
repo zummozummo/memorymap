@@ -1,0 +1,39 @@
+apiVersion: apps/v1 #we have Buckets of object a deployement object is inside app/v1, a pod is insiede v1
+kind: Deployment #Kind of object that we want to create
+metadata:
+  name: auth-depl #name of deployment
+spec: #How this deployment should behave
+  replicas: 1 #Number of pods running some image
+  selector: #-- This selector and metadata of template are working together
+    matchLabels: #Deployment has hard time figuring out which pod it should manage inside our cluster
+      app: auth #so after pods gets created the deplymenet should kinow which pods it should manage
+  template: #thats why we have selector and metadata
+    metadata: #selector is telling take a look at all tha pods that are being created and find pod with label "app:auth"(any key value pair which will provide arbitory info for the pod)
+      labels: #In template we are specefying exact configuration we want this deployment to create, and selector will manage app:auth deployemnt
+        app: auth #--
+    spec: #everything inside tempate can be thougth of as pod spec or a pod config file.
+      containers:
+        - name: auth
+          image: vinkum655/auth
+          env: #all the envirmonent varible we want this pod to be
+            - name: MONGO_URI
+              value: "mongodb://auth-mongo-srv:27017/auth"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+
+---
+apiVersion: v1 #every time we try to create a deployment we usually want to create  a service with it
+kind: Service #kubreneties service, something to allow us to get access to a pod, we could create a sepereate file for this but its better this way
+metadata: #
+  name: auth-srv #
+spec: #tell the service how to behave
+  selector:
+    app: auth
+  ports:
+    - name: auth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
