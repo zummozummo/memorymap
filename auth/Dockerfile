@@ -1,10 +1,8 @@
 FROM node:alpine
 
-#The RUN command will be executed inside project.
 WORKDIR /app
-
 COPY package.json .
-RUN npm install --only=prod 
+RUN npm install
 COPY . .
 
-CMD ["npm","start"]
+CMD ["npm", "start"]

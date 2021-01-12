@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: auth-mongo
-          image: mongo #coming from docker hub image
+          image: mongo
 ---
-apiVersion: v1 #cluster iP service to make sure we can connect to the pod that got created.
+apiVersion: v1
 kind: Service
 metadata:
   name: auth-mongo-srv

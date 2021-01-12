@@ -1,0 +1,10 @@
+kubectl get pods
+kubectl delete pods <Pod name>
+kubectl delete deploy <Deployment name>
+
+Delete services
+==================
+1/Get all available services:
+kubectl get service -o wide
+2/ Then you can delete any services like this:
+kubectl delete svc <YourServiceName>

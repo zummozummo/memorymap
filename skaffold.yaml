@@ -3,21 +3,13 @@ kind: Config
 deploy:
   kubectl:
     manifests:
-      - ./infra/k8s/* # get all the file inside k8s
+      - ./infra/k8s/*
 build:
   local:
-    push: false #do not push it to docker hub
-  artifacts: #all the things that are going to be build
+    push: false
+  artifacts:
     - image: vinkum655/auth
-      context: auth #folder that contian all the code for this image
-      docker:
-        dockerfile: Dockerfile #docker file to be used
-      sync: # tells skaffold what to do if any file change
-        manual:
-          - src: "src/**/*.ts" #watch fro these file changes
-            dest: . # . means where to sync the file to inside our runnig container.
-    - image: vinkum655/tickets
-      context: blocks
+      context: auth
       docker:
         dockerfile: Dockerfile
       sync:

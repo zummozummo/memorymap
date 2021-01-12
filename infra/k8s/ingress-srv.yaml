@@ -4,17 +4,13 @@ metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/use-regex: "true" #this is telling nginx that we will use regex for our path match in spec section
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-    - host: conscious.dev
+    - host: memorymap.dev
       http:
         paths:
-          - path: /api/users/?(.*) # Anytime we make a request to our cluster with /api/user/anything
+          - path: /api/users/?(.*)
             backend:
-              serviceName: auth-srv #this auth-sev is inside auth-depl service name, so we are sending request to this url
-              servicePort: 3000
-          - path: /api/blocks/?(.*)
-            backend:
-              serviceName: blocks-srv
+              serviceName: auth-srv
               servicePort: 3000
