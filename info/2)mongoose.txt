@@ -1,0 +1,30 @@
+Mongoose create easy to use object Refrence when intracting with mongodb
+our database gets modeled within our code.
+
+How do we use mongoose.
+1)create a Schema
+
+Schema types (fields)
+A schema can have an arbitrary number of fields —
+each one represents a field in the documents stored in MongoDB. 
+An example schema showing many of the common field types and how they are declared is shown below.
+eg- var BookSchema=new Schema({
+    title:String,
+    keywords:Array,
+    published:Boolean
+});
+module.exports=mongoose.model('Book',BookSchema);
+
+we need to create a instance of the schema and we call this 
+instance model.
+2)with schema setup we only have to connect to mongodb.
+
+3)https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
+Using models
+Once you've created a schema you can use it to create models. 
+The model represents a collection of documents in the database that you can search, 
+while the model's instances represent individual documents that you can save and retrieve.
+
+Creating and modifying documents
+To create a record you can define an instance of the model and then call save(). The examples below 
+assume SomeModel is a model (with a single field "name") that we have created from our schema.

@@ -3,7 +3,17 @@ import Iuser from '../interfaces/user';
 import { Password } from '../services/password';
 const UserSchema: Schema = new Schema({
     email: { type: String, required: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+
+}, {
+    toJSON: {
+        transform(doc, ret) {
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.password;
+            delete ret.__v;
+        }
+    }
 });
 
 //pre is a middlware implemented by mongoose
