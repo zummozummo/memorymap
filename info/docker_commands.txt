@@ -16,3 +16,7 @@ kubectl create secret generic jwt-secret --from-literal=JWT_KEY=xyz
 kubectl get secrets
 kubectl delete secret db-user-pass
 kubectl describe secrets/db-user-pass
+
+
+
+kubectl exec -it auth-depl-5565667b6c-n9b7d sh
