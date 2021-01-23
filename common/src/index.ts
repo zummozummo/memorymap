@@ -6,5 +6,5 @@ const color: Color = {
     red: 10
 }
 console.log(color);
-console.log('hey');
+console.log('bye');
 export default color;
