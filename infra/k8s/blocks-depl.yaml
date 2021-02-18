@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blocks-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blocks
+  template:
+    metadata:
+      labels:
+        app: blocks
+    spec:
+      containers:
+        - name: blocks
+          image: vinkum655/blocks
+          env:
+            - name: MONGO_URI
+              value: 'mongodb://blocks-mongo-srv:27017/blocks'
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blocks-srv
+spec:
+  selector:
+    app: blocks
+  ports:
+    - name: blocks
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

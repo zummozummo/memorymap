@@ -1,3 +1,0 @@
-Destroy the req.session=null
-https://www.udemy.com/course/microservices-with-node-js-and-react/learn/lecture/19119918#questions
-

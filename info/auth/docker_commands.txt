@@ -1,0 +1,22 @@
+kubectl get pods
+kubectl delete pods <Pod name>
+kubectl delete deploy <Deployment name>
+
+Delete services
+==================
+1/Get all available services:
+kubectl get service -o wide
+2/ Then you can delete any services like this:
+kubectl delete svc <YourServiceName>
+
+
+sercret key
+----------
+kubectl create secret generic jwt-secret --from-literal=JWT_KEY=xyz
+kubectl get secrets
+kubectl delete secret db-user-pass
+kubectl describe secrets/db-user-pass
+
+
+
+kubectl exec -it auth-depl-5565667b6c-n9b7d sh

@@ -1,0 +1,19 @@
+/api/blocks/metadata        get     -  get all
+/api/blocks/:id    get      -
+/api/blocks        POST    {}
+api/blocks		   PUT     {}
+
+cassandra is a server running a JVM process(not in production)
+
+
+Show BLock
+leger data model?? used in finiclial transaction and not acid
+
+
+CREATE TABLE blocks(
+	blockid uuid
+
+)
+
+https://www.youtube.com/watch?v=ay2GvqVH4SM&t=333s
+notion app

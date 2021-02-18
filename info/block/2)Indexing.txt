@@ -1,0 +1,6 @@
+Index are of 2 types(Data structre)
+1)b_tree
+1)lsm tree
+
+ex-Employee with 11 million row.
+   id, name ,not null 
