@@ -2,7 +2,7 @@ import express from "express";
 import { json } from "body-parser";
 
 import cookieSession from "cookie-session";
-
+import { createBlockRouter } from "../routes/new";
 import {errorHandler,NotFoundError} from '@mem_map/common'
 
 const app = express();
@@ -14,7 +14,7 @@ app.use(
     secure: true
   })
 )
-
+app.use(createBlockRouter);
 app.all('*',async (req,res,next)=>{
   next(new NotFoundError());
   // await new NotFoundError());
