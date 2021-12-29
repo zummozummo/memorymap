@@ -1,0 +1,12 @@
+body {
+    background-color: black;
+    color: #eddcdcf5;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+  @media screen and (prefers-color-scheme: light) {
+    body {
+      background-color: white;
+      color: black;
+    }
+  }

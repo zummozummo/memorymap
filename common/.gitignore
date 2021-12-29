@@ -1,2 +1,6 @@
 build
-node_module
+node_modules
+.next
+.env
+cache
+client\.next
