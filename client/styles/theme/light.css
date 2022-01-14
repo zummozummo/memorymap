@@ -1,13 +1,13 @@
 body {
-    color: black;
+    /* color: black; */
     background-color: white;
     margin: 0px !important;
     padding: 0px !important;
   }
   @media screen and (prefers-color-scheme: light) {
     body {
-      color: white;
-      background-color: black;
+      /* color: white; */
+      /* background-color: black; */
     }
   }
 

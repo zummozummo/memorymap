@@ -23,9 +23,22 @@
 
 
 .container {
-    display: flex;
+  z-index: 1;
+  width: 40%;
+  height: 50%;
+  /* background-color: rgb(0, 0, 0); */
+  /* background-color: rgba(0, 0, 0, 0.4); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 7% auto 15% auto;
+  border: 1px solid #888;
+  border-radius: 4px;
 }
 
+.heading {
+  text-align: center;
+}
 
 .text {
     text-align: center;
@@ -52,19 +65,22 @@
 
 
 .buttonField {
-    text-align: center;
+  text-align: center;
+  width: fit-content;
+  margin: auto;
 }
 
 
 .button {
-    height: 40px;
-    width: 100px;
-    border-radius: 1px;
-    margin: 5px;
+    height: 30px;
+    width: 100%;
+    border-radius: 4px;
+    margin: 15px;
+    cursor: pointer;
 }
 
 .inputField {
-    font-size: 1.5em;
+    font-size: 1.2em;
     border: 0;
     border-bottom: 1px solid #ccc;
     font-family: inherit;
@@ -125,5 +141,12 @@
   .inputField:not(:placeholder-shown) + .labelField,
   .inputField:focus + .labelField {
     transform: translate(0, 0) scale(1);
+    cursor: pointer;
+  }
+
+  .eyeIcon {
+    left: 276px;
+    position: relative;
+    top: -31px;
     cursor: pointer;
   }
