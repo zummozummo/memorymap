@@ -76,7 +76,7 @@ class Signup extends React.Component {
 						</div> */}
 						<form onSubmit={this.onSubmit} >
 						<div className={classes.field} >
-								<input className={classes.inputField} placeholder="john" type="name" name="username" id="username" onChange={this.handleInputChange} value={name} />
+								<input className={classes.inputField} placeholder="john" type="text" name="username" id="username" onChange={this.handleInputChange} value={username} />
 								<label className={classes.labelField} for="username">Username</label>
 							</div >							
 							<div className={classes.field} >
