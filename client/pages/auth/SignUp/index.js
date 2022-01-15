@@ -16,7 +16,7 @@ class Signup extends React.Component {
 		}
 	}
 
-	onSubmit = () => {
+	onSubmit = (event) => {
 		event.preventDefault()
 		axios.post('/api/users/signup', {
 			username: this.state.username,
@@ -31,7 +31,7 @@ class Signup extends React.Component {
 		  });
 	}
 
-	handleInputChange = () => {
+	handleInputChange = (event) => {
 		console.log(event.target.value, event.target.name);
 		this.setState({
 			...this.state,
@@ -81,7 +81,7 @@ class Signup extends React.Component {
 							</div >							
 							<div className={classes.field} >
 								<input className={classes.inputField} placeholder="johndoe@example.com" type="email" name="email" id="email" onChange={this.handleInputChange} value={email} />
-								<label className={classes.labelField} for="email">Email</label>
+								<label className={classes.labelField} htmlFor="email">Email</label>
 							</div >
 							<div className={classes.field} >
 								
