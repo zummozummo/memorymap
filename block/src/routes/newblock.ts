@@ -1,5 +1,5 @@
-import express, { Request, response, Response } from "express";
-import { requireAuth, validateRequest, BadRequestError } from "@mem_map/common";
+import express, { Request, Response } from "express";
+import { requireAuth, validateRequest } from "@mem_map/common";
 import { Block } from "../models/block";
 import { ObjectId } from "mongodb";
 import { body } from "express-validator";
@@ -35,4 +35,4 @@ router.post(
   }
 );
 
-export { router as createSidebarRouter };
+export { router as createBlockRouter };
