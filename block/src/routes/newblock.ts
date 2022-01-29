@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { requireAuth, validateRequest } from "@mem_map/common";
 import { Block } from "../models/block";
 import { ObjectId } from "mongodb";
@@ -16,21 +16,17 @@ router.post(
   validateRequest,
   async (req: Request, res: Response) => {
     const { type, value } = req.body;
-    try {
-      if (type === "sidebar") {
-        const id = req.currentUser?.id;
-        const block = new Block({ id, type, value });
-        await block.save();
-        res.send(block);
-      } else if (type === "editor") {
-        const id = new ObjectId();
-        console.log(id);
-        const block = new Block({ id, type, value });
-        await block.save();
-        res.send({ id, type });
-      }
-    } catch (err) {
-      throw new Error("Something went wrong...");
+    if (type === "sidebar") {
+      const id = req.currentUser?.id;
+      const block = new Block({ id, type, value });
+      await block.save();
+      res.status(201).send(block);
+    } else if (type === "editor") {
+      const id = new ObjectId();
+      console.log(id);
+      const block = new Block({ id, type, value });
+      await block.save();
+      res.status(201).send({ id, type });
     }
   }
 );
