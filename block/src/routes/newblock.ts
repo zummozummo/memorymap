@@ -5,7 +5,9 @@ import { ObjectId } from "mongodb";
 import { body } from "express-validator";
 const router = express.Router();
 
-//will be used to create dummy sidebar when user signup first time
+//request should contain type and value
+//Used to create sidebar when user signup first time
+//Used to create editor block when user adds a new file -> response will be a new id for sidebar file
 router.post(
   "/api/block",
   [

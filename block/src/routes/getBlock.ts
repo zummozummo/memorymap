@@ -1,23 +1,23 @@
-import express, { Request, Response } from "express";
-import { requireAuth } from "@mem_map/common";
+import express, { NextFunction, Request, Response } from "express";
+import { NotFoundError, requireAuth } from "@mem_map/common";
 import { Block } from "../models/block";
 const router = express.Router();
 
+//get block, request url should contain the id
 router.get(
   "/api/block/:id",
   requireAuth,
-  async (req: Request, res: Response) => {
-    const { id } = req.params;
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const { id } = req.params;
       const existingBlock = await Block.findOne({ id });
-      console.log(existingBlock);
       if (existingBlock) {
         res.send(existingBlock);
       } else {
-        res.sendStatus(404);
+        throw next(new NotFoundError());
       }
     } catch (err) {
-      throw Error("DB error");
+      next(err);
     }
   }
 );
