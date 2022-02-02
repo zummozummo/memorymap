@@ -7,16 +7,15 @@ const start = async()=>{
   }
   if(!process.env.MONGO_URI){
     throw new Error('Mongo uri must be defined');
-  }
+   } 
 
   try{
   await mongoose.connect(process.env.MONGO_URI);
   }catch(err){
     console.error(err);
   }
-  //var UserProperties=new User({email: 'bill@initech.com',password: 'Billxxx'});
-  //console.log(UserProperties);
-  console.log('connecte to mongodb');
+
+  console.log('connecte to mongodb block');
 
   app.listen(3000, () => {
     console.log("Listening on port 3000 !");
