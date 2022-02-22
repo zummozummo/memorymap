@@ -15,16 +15,10 @@ router.put(
   requireAuth,
   validateRequest,
   async (req: Request, res: Response) => {
-    const { type, value, id } = req.body;
-    if (type === "editor") {
-      const updateValue = { value: value };
-      const block = await Block.findOneAndUpdate({ id }, updateValue);
-      res.send(block);
-    } else if (type === "sidebar") {
-      const updateValue = { value: value };
-      const block = await Block.findOneAndUpdate({ id }, updateValue);
-      res.send(block);
-    }
+    const { value, id } = req.body;
+    const updateValue = { value: value };
+    const block = await Block.findOneAndUpdate({ id }, updateValue);
+    res.send(block);
   }
 );
 

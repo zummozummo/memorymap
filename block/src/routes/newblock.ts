@@ -3,6 +3,7 @@ import { requireAuth, validateRequest } from "@mem_map/common";
 import { Block } from "../models/block";
 import { ObjectId } from "mongodb";
 import { body } from "express-validator";
+import { v4 as uuidv4 } from "uuid";
 const router = express.Router();
 
 //request should contain type and value
@@ -23,11 +24,15 @@ router.post(
       const block = new Block({ id, type, value });
       await block.save();
       res.status(201).send(block);
-    } else if (type === "editor") {
-      const id = new ObjectId();
+    } else if (type === "editor-file") {
+      const id = uuidv4();
       console.log(id);
       const block = new Block({ id, type, value });
       await block.save();
+      res.status(201).send({ id, type });
+    } else if (type === "editor-folder") {
+      const id = uuidv4();
+      console.log(id);
       res.status(201).send({ id, type });
     }
   }
