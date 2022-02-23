@@ -5,6 +5,7 @@ const withSass = require('sass')
 
 // next.config.js
 module.exports = {
+  distDir: 'build',
   watchOptions: {
     poll: 300,
   },

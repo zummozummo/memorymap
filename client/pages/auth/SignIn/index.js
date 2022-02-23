@@ -1,10 +1,8 @@
 import React from "react"
 import classes from './SignIn.module.css';
 import '../../../assets/home-image.jpg';
-const axios = require('axios');
-import useRequest from "../../../hooks/useRequest";
-import Router from 'next/router';
-
+import { authenticate } from '../../../store/actions/authActions';
+import { connect } from 'react-redux';
 class Signin extends React.Component {
 
 	constructor(props) {
@@ -22,22 +20,18 @@ class Signin extends React.Component {
 	onSubmit = async (event) => {
 		event.preventDefault()
 
-		const response = await (useRequest({
-			url: '/api/users/signin',
-			method: 'post',
-			body: {
-				email: this.state.email,
-				password: this.state.password,
-			}
-		}))()
-		if (response.errors) {
-			this.setState({ errors: response.errors })
-		} else {
-			console.log(response)
-			Router.push('/getting-started')
+		const data = {
+			email: this.state.email,
+            password: this.state.password
 		}
+		this.props.authenticate(data)
 	}
 
+	componentDidUpdate(prevState,prevProps) {
+		// if (prevProps.token !== this.props.token && this.props.token) {
+		// 	Router.push("/getting-started");
+		// }
+	}
 	handleInputChange = (event) => {
 		console.log(event.target.value, event.target.name);
 		this.setState({
@@ -124,4 +118,13 @@ class Signin extends React.Component {
 }
 
 
-export default Signin
+const mapStateToProps = state => {
+	console.log("state", state);
+	return { token: state?.authentication?.token }
+   }
+   
+const mapDispatchToProps = {
+	authenticate
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signin);

@@ -2,13 +2,14 @@ import React from "react"
 import classes from './Editor.module.css';
 import '../../../../assets/icons-search.svg'
 import './icons-search.svg'
+import { handleData } from "../../../../store/actions/editorActions";
 
 class Editor extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            textSearch: ''
+            textSearch: 'dummy text'
         }
     }
     
@@ -19,12 +20,16 @@ class Editor extends React.Component {
 			[event.target.name]: event.target.value})
 	}
 
+    componentDidMount() {
+        handleData({value: [], type: 'editor'})
+    }
+
     render() {
         return (
             <div className={classes.editor}>
             
 			    {/* <label className={classes.labelField} for="text">Search...</label> */}
-                <input active className={classes.inputSearch} placeholder="Search..." type="text" name="textSearch" id="text" onChange={this.handleInputChange} value={this.state.textSearch} />
+                <input className={classes.inputSearch} placeholder="Search..." type="text" name="textSearch" id="text" onChange={this.handleInputChange} value={this.state.textSearch} />
                 <img className={classes.icon} alt="search" src="/icons-search.svg"/>
             </div>
         )
