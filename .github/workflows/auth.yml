@@ -1,0 +1,14 @@
+# we can write script for running the test once test cases are implemeted
+name: main
+
+on:
+  pull_request
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd auth && npm install
+  
+  
