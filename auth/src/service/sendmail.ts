@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { Response } from "express";
 const transporter = nodemailer.createTransport({
   host: "smtpout.secureserver.net",
   port: 465,
@@ -10,7 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export function sendEmail(email: any, body: any, res: Response) {
+export function sendEmail(email: any, body: any) {
   const options = {
     from: "noreply@mapourmind.com",
     to: email,

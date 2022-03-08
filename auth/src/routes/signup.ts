@@ -48,7 +48,7 @@ router.post(
     const token = jwt.sign(payload, secret, { expiresIn: "10m" });
     const link = `http://memorymap.dev/api/users/verifyEmail/${user.id}/${token}`;
     try {
-      sendEmail(email, link, res);
+      sendEmail(email, link);
     } catch (error) {
       console.log(error);
     }
