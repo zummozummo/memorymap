@@ -2,7 +2,6 @@ import { BadRequestError, NotFoundError } from "@mem_map/common";
 import express, { NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user";
-import { Password } from "../service/password";
 import { sendEmail } from "../service/sendmail";
 const router = express.Router();
 
@@ -17,9 +16,9 @@ router.get(
     }
     //check if the token is valid
     console.log(existingUser.password);
-    const secret = "asdf" + existingUser.password;
+    const verify_sec = "asdf" + existingUser.password;
     try {
-      const payload = jwt.verify(token, secret);
+      const payload = jwt.verify(token, verify_sec);
     } catch (err) {
       console.log(err);
       return next(new BadRequestError("jwt error"));
@@ -52,12 +51,12 @@ router.post(
       return next(new BadRequestError("Email not registerd"));
     }
     //user exist and now creat one time link valid for 10min
-    const secret = "asdf" + existingUser.password;
+    const verify_sec = "asdf" + existingUser.password;
     const payload = {
       email: existingUser.email,
       id: existingUser.id,
     };
-    const token = jwt.sign(payload, secret, { expiresIn: "10m" });
+    const token = jwt.sign(payload, verify_sec, { expiresIn: "10m" });
     const link = `http://memorymap.dev/api/users/reset-password/${existingUser.id}/${token}`;
     console.log(link);
     try {

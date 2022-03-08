@@ -16,9 +16,9 @@ router.get(
       return next(new BadRequestError("Not a Valid User"));
     }
     console.log("user" + existingUser);
-    const secret = "asdf" + existingUser?.password;
+    const verify_sec = "asdf" + existingUser?.password;
     try {
-      const payload = jwt.verify(token, secret);
+      const payload = jwt.verify(token, verify_sec);
       res.send({ email: existingUser?.email });
     } catch (error) {
       console.log(error);
@@ -27,7 +27,7 @@ router.get(
   }
 );
 
-router.post(
+router.put(
   "/api/users/reset-password/:id/:token",
   [
     body("password")
@@ -57,9 +57,9 @@ router.post(
       return next(new BadRequestError("Not a Valid User"));
     }
     //check if the token is valid
-    const secret = "asdf" + existingUser.password;
+    const verify_sec = "asdf" + existingUser.password;
     try {
-      const payload = jwt.verify(token, secret);
+      const payload = jwt.verify(token, verify_sec);
       //validate password and password2
       //find the user with id and email and update the password
       const hashed = await Password.toHash(password);
@@ -75,7 +75,7 @@ router.post(
       console.log(error);
       return next(new BadRequestError("JWT error"));
     }
-    res.sendStatus(200);
+    res.sendStatus(204);
   }
 );
 
