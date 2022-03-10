@@ -70,7 +70,6 @@ router.put(
         },
         { new: true }
       );
-      req.session = null;
       console.log(user);
       res.sendStatus(204);
     } catch (error) {

@@ -32,7 +32,7 @@ router.get(
         { new: true }
       );
       console.log(user);
-      res.sendStatus(200);
+      res.sendStatus(204);
     } catch (error) {
       console.log(error);
     }
