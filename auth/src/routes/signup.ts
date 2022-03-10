@@ -40,7 +40,7 @@ router.post(
     //cookie session library is going to take this session searilize it and send it back to users browser
     req.session!.jwt = userJWT;
 
-    const secret = "asdf" + user.password;
+    const secret = process.env.JWT_KEY + user.password;
     const payload = {
       email: email,
       id: user.id,

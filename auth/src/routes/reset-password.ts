@@ -16,7 +16,7 @@ router.get(
       return next(new BadRequestError("Not a Valid User"));
     }
     console.log("user" + existingUser);
-    const verify_sec = "asdf" + existingUser?.password;
+    const verify_sec = process.env.JWT_KEY + existingUser?.password;
     try {
       const payload = jwt.verify(token, verify_sec);
       res.send({ email: existingUser?.email });
@@ -57,7 +57,7 @@ router.put(
       return next(new BadRequestError("Not a Valid User"));
     }
     //check if the token is valid
-    const verify_sec = "asdf" + existingUser.password;
+    const verify_sec = process.env.JWT_KEY! + existingUser.password;
     try {
       const payload = jwt.verify(token, verify_sec);
       //validate password and password2
@@ -70,12 +70,13 @@ router.put(
         },
         { new: true }
       );
+      req.session = null;
       console.log(user);
+      res.sendStatus(204);
     } catch (error) {
       console.log(error);
       return next(new BadRequestError("JWT error"));
     }
-    res.sendStatus(204);
   }
 );
 
