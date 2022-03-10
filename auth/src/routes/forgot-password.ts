@@ -32,10 +32,10 @@ router.get(
         { new: true }
       );
       console.log(user);
+      res.sendStatus(200);
     } catch (error) {
       console.log(error);
     }
-    res.sendStatus(200);
   }
 );
 router.post(
