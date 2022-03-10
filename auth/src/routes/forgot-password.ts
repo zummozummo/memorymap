@@ -16,7 +16,7 @@ router.get(
     }
     //check if the token is valid
     console.log(existingUser.password);
-    const verify_sec = "asdf" + existingUser.password;
+    const verify_sec = process.env.JWT_KEY + existingUser.password;
     try {
       const payload = jwt.verify(token, verify_sec);
     } catch (err) {
@@ -51,7 +51,7 @@ router.post(
       return next(new BadRequestError("Email not registerd"));
     }
     //user exist and now creat one time link valid for 10min
-    const verify_sec = "asdf" + existingUser.password;
+    const verify_sec = process.env.JWT_KEY + existingUser.password;
     const payload = {
       email: existingUser.email,
       id: existingUser.id,
@@ -61,10 +61,9 @@ router.post(
     console.log(link);
     try {
       sendEmail(existingUser.email, link);
+      res.sendStatus(200);
     } catch (err) {
       console.log(err);
-    } finally {
-      res.sendStatus(200);
     }
   }
 );
