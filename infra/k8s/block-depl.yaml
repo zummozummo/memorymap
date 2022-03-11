@@ -1,41 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-depl
+  name: block-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: block
   template:
     metadata:
       labels:
-        app: auth
+        app: block
     spec:
       containers:
-        - name: auth
-          image: vinkum655/auth
+        - name: block
+          image: vinkum655/block
           env:
+            - name: MONGO_URI
+              value: 'mongodb://block-mongo-srv:27017/block' 
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
-            - name: MAIL_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: mail-secret
-                  key: MAIL_PASS
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-srv
+  name: block-srv
 spec:
   selector:
-    app: auth
+    app: block
   ports:
-    - name: auth
+    - name: block
       protocol: TCP
       port: 3000
       targetPort: 3000
