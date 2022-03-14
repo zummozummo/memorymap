@@ -1,9 +1,11 @@
 import React from "react"
 import classes from './Signup.module.css';
 import '../../../assets/home-image.jpg';
-import useRequest from "../../../hooks/useRequest";
 import Router from 'next/router';
-class Signup extends React.Component {
+import { signup } from '../../../store/actions/authActions';
+import { connect } from 'react-redux';
+
+class SignUp extends React.Component {
 
 	constructor(props) {
 		super(props)
@@ -16,26 +18,42 @@ class Signup extends React.Component {
 		}
 	}
 
+
 	onSubmit = async (event) => {
 		event.preventDefault()
 
-		const response = await (useRequest({
-			url: '/api/users/signup',
-			method: 'post',
-			body: {
-				username: this.state.username,
-				email: this.state.email,
-				password: this.state.password,
-			}
-		}))()
-		if (response.errors) {
-			this.setState({errors: response.errors})
-		} else {
-			console.log(response)
-			Router.push('/getting-started')
+		const data = {
+			email: this.state.email,
+            password: this.state.password
+		}
+		this.props.signup(data)
+	}
+	// onSubmit = async (event) => {
+	// 	event.preventDefault()
+
+	// 	const response = await (useRequest({
+	// 		url: '/api/users/signup',
+	// 		method: 'post',
+	// 		body: {
+	// 			username: this.state.username,
+	// 			email: this.state.email,
+	// 			password: this.state.password,
+	// 		}
+	// 	}))()
+	// 	if (response.errors) {
+	// 		this.setState({errors: response.errors})
+	// 	} else {
+	// 		console.log(response)
+	// 		Router.push('/getting-started')
+	// 	}
+	// }
+
+
+	componentDidUpdate(prevState,prevProps) {
+		if (this.props.token) {
+			Router.push("/getting-started");
 		}
 	}
-
 
 	handleInputChange = (event) => {
 		this.setState({
@@ -125,5 +143,12 @@ class Signup extends React.Component {
 	}
 }
 
+const mapStateToProps = state => {
+	return { token: state?.authentication?.token }
+   }
+   
+const mapDispatchToProps = {
+	signup
+}
 
-export default Signup
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

@@ -1,4 +1,4 @@
-export const fetchWrapper = {
+export const apiWrapper = {
     get,
     post,
     put,
@@ -10,7 +10,7 @@ function get(url) {
         method: 'GET',
         headers: authHeader(url)
     }
-    fetch(url, requestOptions).then(handleResponse)
+    return  fetch(url, requestOptions).then(handleResponse)
 }
 
 function post(url, body) {
@@ -19,7 +19,7 @@ function post(url, body) {
         body: JSON.stringify(body),
         headers: authHeader(url)
     }
-    fetch(url, requestOptions).then(handleResponse)
+    return fetch(url, requestOptions).then(handleResponse)
 }
 
 function put(url, body) {
@@ -28,7 +28,7 @@ function put(url, body) {
         body: JSON.stringify(body),
         headers: authHeader(url)
     }
-    fetch(url, requestOptions).then(handleResponse)
+    return fetch(url, requestOptions).then(handleResponse)
 }
 
 function _delete(url) {
@@ -36,12 +36,13 @@ function _delete(url) {
         method: 'PUT',
         headers: authHeader(url)
     }
-    fetch(url, requestOptions).then(handleResponse)
+    return fetch(url, requestOptions).then(handleResponse)
 }
 
 function handleResponse(response) {
-    // return response.text().then(text => {
-    //     const data = text && JSON.parse(text);
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+// console.log(response, data);
         
         if (!response.ok) {
             if ([401, 403].includes(response.status) && userService.userValue) {
@@ -52,9 +53,8 @@ function handleResponse(response) {
             const error = (data && data?.message) || response?.statusText;
             return Promise.reject(error);
         }
-console.log(response);
-        // return data;
-    // });
+        return data;
+    });
 }
 
 

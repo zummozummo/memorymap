@@ -14,5 +14,5 @@ const makeStore = () => createStore(
 	rootReducer,
 	compose(applyMiddleware(...middlewares))
 	);
-console.log(makeStore);
+// console.log(makeStore);
 export const wrapper = createWrapper(makeStore)

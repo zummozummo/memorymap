@@ -1,4 +1,3 @@
-import { Children } from 'react'
 import Footer from '../../common/Smart/Footer'
 import Header from '../../common/Smart/Header'
 
@@ -6,7 +5,7 @@ import Header from '../../common/Smart/Header'
 
 
 const Layout = (props) => {
-    console.log(props)
+    // console.log(props)
     return(
         <main>
             <Header/>

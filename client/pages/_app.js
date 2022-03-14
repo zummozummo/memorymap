@@ -7,15 +7,12 @@ import { wrapper } from "../store/index"
 
 function MyApp({ Component, pageProps, store }) {
   return (
-    // <Provider store={wrapper}>
     <Layout>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
       </Head>
       <Component {...pageProps} />
     </Layout>
-    // </Provider>
   );
 }
-console.log(wrapper);
 export default wrapper.withRedux(MyApp);

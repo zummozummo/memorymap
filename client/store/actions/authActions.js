@@ -1,16 +1,22 @@
-import { fetchWrapper } from "../../helpers/fetchWrapper";
+import { apiWrapper } from "../../helpers/apiWrapper";
 import { AUTHENTICATE, DEAUTHENTICATE } from "../actionTypes";
+import cookie from "js-cookie";
 
 export const authenticate = (user) => (dispatch) =>
- fetchWrapper.post(`/api/users/signin`, user)
-//  .then((data) => data.json())
-//   .then((response) => {
-//     setCookie("token", response.token);
-//     Router.push("/");
-//     dispatch({ type: AUTHENTICATE, payload: response.token });
-//   })
-//   .catch((err) => console.log(err));
+ apiWrapper.post(`/api/users/signin`, user).then((data) => {
+    setCookie("token", data.id);
+    // Router.push("/");
+    dispatch({ type: AUTHENTICATE, payload: data.id });
+  })
+  .catch((err) => console.log(err));
 
+export const signup = (user) => (dispatch) =>
+ apiWrapper.post(`/api/users/signup`, user).then((data) => {
+    setCookie("token", data.id);
+    // Router.push("/");
+    dispatch({ type: AUTHENTICATE, payload: data.id });
+  })
+  .catch((err) => console.log(err));
 
   
 

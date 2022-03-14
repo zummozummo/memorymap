@@ -1,16 +1,16 @@
 import { FETCH_EDITOR, SAVE_EDITOR } from "../actionTypes";
 
-const editorReducer = (state = { data: null }, action) => {
+const editorReducer = (state = { data: [] }, action) => {
+	// console.log(state, action);
 	switch (action.type) {
 		case SAVE_EDITOR:
 			return {
 				...state,
-				...action.payload
+				data: [action.payload]
 			}
 			case FETCH_EDITOR:
 				return {
-					// ...state,
-					// ...action.payload
+					...state.data
 				}
 			default:
 			return state;

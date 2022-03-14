@@ -3,12 +3,13 @@ import classes from './SignIn.module.css';
 import '../../../assets/home-image.jpg';
 import { authenticate } from '../../../store/actions/authActions';
 import { connect } from 'react-redux';
+import Router from "next/router";
 class Signin extends React.Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			email: '',
+			email: 'anjali@email.com',
 			password: 'Qwerty@123!@#',
 			confirmPassword: '',
 			showPwd: false,
@@ -28,12 +29,12 @@ class Signin extends React.Component {
 	}
 
 	componentDidUpdate(prevState,prevProps) {
-		// if (prevProps.token !== this.props.token && this.props.token) {
-		// 	Router.push("/getting-started");
-		// }
+		if (this.props.token) {
+			Router.push("/getting-started");
+		}
 	}
 	handleInputChange = (event) => {
-		console.log(event.target.value, event.target.name);
+		// console.log(event.target.value, event.target.name);
 		this.setState({
 			...this.state,
 			[event.target.name]: event.target.value
@@ -117,11 +118,10 @@ class Signin extends React.Component {
 	}
 }
 
-
 const mapStateToProps = state => {
-	console.log("state", state);
-	return { token: state?.authentication?.token }
-   }
+	// console.log("state", state);
+	return {token: state?.authentication?.token};
+}
    
 const mapDispatchToProps = {
 	authenticate

@@ -1,17 +1,27 @@
-import { FETCH_SIDEBAR, SAVE_SIDEBAR } from "../actionTypes";
+import { FETCH_SIDEBAR, CREATE_SIDEBAR, SET_ACTIVEID } from "../actionTypes";
 
-const sidebarReducer = (state = { sidebarData: null }, action) => {
+const initState = {data:[],activeId: ''};
+// [{id: '', value: 'Untitled Doc', label: 'Untitled Doc', type: 'File'}]
+
+const sidebarReducer = (state = initState, action) => {
+	// let id = action.id || 0;
+	// console.log(state, action);
 	switch (action.type) {
-		case SAVE_SIDEBAR:
+		case CREATE_SIDEBAR:
 			return {
 				...state,
-				...action.payload
+				data: [action.payload]
 			}
 			case FETCH_SIDEBAR:
 				return {
 					// ...state,
-					// ...action.payload
 				}
+			case SET_ACTIVEID:
+				return {
+					...state,
+					activeId: action.payload
+				}
+
 			default:
 			return state;
 	}
