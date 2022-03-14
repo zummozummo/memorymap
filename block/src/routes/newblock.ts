@@ -13,7 +13,7 @@ router.post(
   "/api/block",
   [
     body("type").trim().notEmpty().withMessage("type should be specified"),
-    body("value").notEmpty().withMessage("Value should be specified"),
+    // body("value").notEmpty().withMessage("Value should be specified"),
   ],
   requireAuth,
   validateRequest,
