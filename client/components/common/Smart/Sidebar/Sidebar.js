@@ -4,7 +4,7 @@ import classes from './Sidebar.module.css';
 import { connect } from 'react-redux';
 import Router from 'next/router';
 import { createBlock } from '../../../../store/helpers/editor';
-import { createsideBar, setactiveId } from "../../../../store/actions/sidebarActions";
+import { getSidebarId, createsideBar, setactiveId } from "../../../../store/actions/sidebarActions";
 import SidebarItem from "../SidebarItem";
 class Sidebar extends React.Component {
 
@@ -16,6 +16,8 @@ class Sidebar extends React.Component {
             sidebaractiveId: this.props.sidebaractiveId,
             // textSearch: 'dummy text'
         }
+
+        // console.log(this.props.sidebarList);
     }
 
     handleInputChange = () => {
@@ -27,23 +29,45 @@ class Sidebar extends React.Component {
 
     handleAdd = (type='File') => {
         const {dummySidebar} = this.state;
-        this.props.createEditor(dummySidebar) 
+        const editorRequest = { "value": [""], "type": 'editor-file' }
+        // console.log(editorRequest);
+        createBlock(editorRequest).then((response) => {
+            if (response) {
+                this.setState(prevState => ({
+                    dummySidebar: {
+                        ...dummySidebar,
+                        id: response?.id
+                    }
+                }),() => {
+                    // console.log("Dss", this.state.dummySidebar);
+                    const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
+                    createBlock(sidebarReq).then((response) => {
+                        if (response) {
+                            this.props?.createsideBar(response?.value[0])
+                            this.props?.setactiveId(response?.value[0]?.id)
+                        }
+                    })
+                })
+            }
+        })
         
     }
 
     renderSideBarList = () => {
         const { data, sidebaractiveId } = this.state;
-        console.log(sidebaractiveId);
+        console.log("data", this.props.sidebarList, this.props.sidebarList.length);
         return (
-            data && data.map((el) => {
-                return <SidebarItem title={el?.value[0].label}/>
+            // this.props.sidebarList && 
+            this.props.sidebarList.filter((el) => {
+                console.log("el", el);
+                return <SidebarItem title={el?.id}/>
             })
         )
     }
 
     renderSideBar = () => {
         const { data, sidebaractiveId } = this.state;
-        console.log(sidebaractiveId);
+        // console.log(sidebaractiveId);
         return (
             <React.Fragment>
                 <div onClick={() => {this.handleAdd()}}>add file</div>
@@ -76,7 +100,7 @@ class Sidebar extends React.Component {
                 const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
                 createBlock(sidebarReq).then((response) => {
                     if (response) {
-                        this.props.createsideBar(response)
+                        this.props.createsideBar(response?.value[0])
                         this.props.setactiveId(id)
                     }
                 })
@@ -85,18 +109,27 @@ class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        // console.log(this.props.sidebarList);
-        if (prevProps.sidebarList !== this.props.sidebarList) {
-            this.setState({ data: this.props.sidebarList })
-        }
+        // console.log(prevProps.sidebarList, this.props.sidebarList);
+        // if (this.state.data !== this.props.sidebarList) {
+        //     this.setState({ data: this.props.sidebarList })
+        // }
+        // console.log(prevProps.sidebarId, this.props.sidebarId);
         if (prevProps.sidebarId !== this.props.sidebarId) {
+            // console.log("if");
             this.handleSidebar()
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        // console.log(prevState.data, nextProps.sidebarList);
+        // if (prevState.data !== nextProps.sidebarList) {
+        //     console.log("in");
+        //     this.setState({ data: this.props.sidebarList })
+        // }
+    }
     render() {
         const {data} = this.state;
-
+        console.log(this.props.sidebarList);
         return (
             <div className={classes.sidebar}>
                 {this.renderSideBar()}
@@ -107,11 +140,12 @@ class Sidebar extends React.Component {
 
 const mapDispatchToProps = {
     createsideBar,
-    setactiveId
+    setactiveId,
+    getSidebarId
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state, state?.data, "store redcers object");
+    console.log(state, state?.sidebar.data, "store redcers object");
     return { sidebarList: state?.sidebar?.data || [], sidebaractiveId: state?.sidebar?.activeId || '' }
 }
 

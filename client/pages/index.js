@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Fragment } from 'react';
-import Editor from "../components/common/Smart/Editor"
+import Editor from "../components/common/Smart/Editor/Editor"
 
 
 function HomePage(props) {

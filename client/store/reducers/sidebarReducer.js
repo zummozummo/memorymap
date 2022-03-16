@@ -4,24 +4,24 @@ const initState = {data:[],activeId: ''};
 // [{id: '', value: 'Untitled Doc', label: 'Untitled Doc', type: 'File'}]
 
 const sidebarReducer = (state = initState, action) => {
+	// console.log(action);
+
 	// let id = action.id || 0;
-	// console.log(state, action);
+	// console.log(action.payload);
 	switch (action.type) {
 		case CREATE_SIDEBAR:
-			return {
-				...state,
-				data: [action.payload]
-			}
+	state?.data?.push(action.payload)
+			return state
+				// ...state,
+				// data: [action.payload]
+			// }
 			case FETCH_SIDEBAR:
 				return {
 					// ...state,
 				}
 			case SET_ACTIVEID:
-				return {
-					...state,
-					activeId: action.payload
-				}
-
+				state.activeId = action.payload
+				return state
 			default:
 			return state;
 	}

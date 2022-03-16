@@ -14,7 +14,7 @@ class SidebarItem extends React.Component {
     render() {
         const {} = this.state;
         const {title} = this.props;
-
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaas");
         return (<div>
             {title}
         </div>)

@@ -15,6 +15,7 @@ class Editor extends React.Component {
             data: this.props.editorData,
             textSearch: 'dummy text'
         }
+        console.log("consytr",this.props);
     }
 
     handleInputChange = () => {
@@ -27,7 +28,7 @@ class Editor extends React.Component {
     renderEditor = () => {
         const { data } = this.state;
 
-        console.log(data);
+        // console.log(data);
         return (
             data && data.map((el) => {
                 return <ul><li>{el?.type}---{el?.value || 'none'}</li></ul>
@@ -48,12 +49,15 @@ class Editor extends React.Component {
     }
 
     componentDidMount()  {
-        // condition for signup
+        // condition for signup'
+        console.log(this.props);
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhthis.props");
+        
         const editorRequest = { "value": [""], "type": 'editor-file' }
         createBlock(editorRequest).then((response) => {
             if (response) {
-                this.props.saveEditor(editorRequest)    // not required actually
-                this.props.saveSidebarId(response?.id)
+                this.props?.saveEditor(editorRequest)    // not required actually
+                this.props?.saveSidebarId(response?.id)
             }
         })
     }

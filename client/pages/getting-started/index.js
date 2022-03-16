@@ -1,6 +1,6 @@
 import React from 'react'
-import Editor from '../../components/common/Smart/Editor';
-import Sidebar from '../../components/common/Smart/Sidebar';
+import Editor from '../../components/common/Smart/Editor/Editor';
+import Sidebar from '../../components/common/Smart/Sidebar/Sidebar';
 
 
 class GettingStarted extends React.Component {

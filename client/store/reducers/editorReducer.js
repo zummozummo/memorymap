@@ -1,7 +1,7 @@
 import { FETCH_EDITOR, SAVE_EDITOR } from "../actionTypes";
 
 const editorReducer = (state = { data: [] }, action) => {
-	// console.log(state, action);
+	// console.log("editorReducer", state, action);
 	switch (action.type) {
 		case SAVE_EDITOR:
 			return {
