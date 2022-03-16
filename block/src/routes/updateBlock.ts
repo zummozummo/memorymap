@@ -6,18 +6,20 @@ import { body } from "express-validator";
 const router = express.Router();
 
 router.put(
-  "/api/block",
+  "/api/block/:id",
   [
-    body("id").trim().notEmpty().withMessage("id should be specified"),
     body("type").trim().notEmpty().withMessage("type should be specified"),
     body("value").notEmpty().withMessage("Value should be specified"),
   ],
   requireAuth,
   validateRequest,
   async (req: Request, res: Response) => {
-    const { value, id } = req.body;
+    const { value } = req.body;
+    const { id } = req.params;
     const updateValue = { value: value };
-    const block = await Block.findOneAndUpdate({ id }, updateValue);
+    const block = await Block.findOneAndUpdate({ id }, updateValue, {
+      new: true,
+    });
     res.send(block);
   }
 );
