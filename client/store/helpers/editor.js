@@ -13,9 +13,9 @@ export const createBlock = async (data = {}) => {
     .catch((err) => console.log(err));
 }
 
-export const updateBlock = async (data = {}) => {
+export const updateBlock = async (data = {}, id) => {
 // console.log(data);
-  return apiWrapper.put(`/api/block/${data.id}`, data)
+  return apiWrapper.put(`/api/block/${id}`, data)
     .then((response) => {
       if (response) {
         return response
@@ -24,9 +24,9 @@ export const updateBlock = async (data = {}) => {
     .catch((err) => console.log(err));
 }
 
-export const getBlock = async (data = {}) => {
-  console.log(data);
-  return apiWrapper.get(`/api/block/${data?.token}`)
+export const getBlock = async (id) => {
+  console.log("id",id);
+  return apiWrapper.get(`/api/block/${id}`)
     .then((response) => {
       if (response) {
         return response

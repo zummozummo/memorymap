@@ -32,16 +32,16 @@ class Header extends React.Component {
 								<a target="_blank" href='https://www.udemy.com/course/microservices-with-node-js-and-react/learn/lecture/19119606#questions/10660766'>MY LEARNING</a>
 							</li>								
 							<div className={classes.vl}></div>
-							<li>
+							{!(this.props.isSignedin || this.props.isLoggedin) && <li>
 								<Link href='/auth/SignUp'><a>SIGNUP</a></Link>
-							</li>
+							</li>}
 							<div className={classes.vl}></div>
-							<li>
+							{!(this.props.isSignedin || this.props.isLoggedin) && <li>
 								<Link href='/auth/SignIn'><a>SIGNIN</a></Link>
-							</li>
-							<li>
+							</li>}
+							{(this.props.isSignedin || this.props.isLoggedin) && <li>
 								<Link href='/auth/LogOut'><a>SIGNOUT</a></Link>
-							</li>
+							</li>}
 							{/* <li>
 								<Link onClick={()=>{this.props.logout()}}><a>SIGNOUT</a></Link>
 							</li> */}
@@ -52,8 +52,20 @@ class Header extends React.Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+    console.log("state", state);
+    return {
+        token: state?.authentication?.token || '',
+        isLoggedin: state?.authentication?.isLoggedin,
+        isSignedin: state?.authentication?.isSignedin,
+        sidebaractiveId: state?.sidebar?.activeId || '',
+        sidebarList: state?.sidebar?.data || [],
+        editorData: state?.editor?.data || []
+    };
+}
+
 const mapDispatchToProps = {
 	logout
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -3,7 +3,7 @@ import '../../../../assets/icons-search.svg'
 import classes from './Sidebar.module.css';
 import { connect } from 'react-redux';
 import Router from 'next/router';
-import { createBlock } from '../../../../store/helpers/editor';
+import { createBlock, updateBlock } from '../../../../store/helpers/editor';
 import { getSidebarId, createsideBar, setactiveId } from "../../../../store/actions/sidebarActions";
 import SidebarItem from "../SidebarItem";
 class Sidebar extends React.Component {
@@ -39,11 +39,12 @@ class Sidebar extends React.Component {
                         id: response?.id
                     }
                 }),() => {
-                    // console.log("Dss", this.state.dummySidebar);
-                    const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
-                    createBlock(sidebarReq).then((response) => {
+                    console.log("Dss", this.state.dummySidebar, this.props?.sidebarList.push(this.state.dummySidebar));
+                    const sidebarReq = {type: 'sidebar', value: this.props?.sidebarList};
+                    updateBlock(sidebarReq, this.props?.token).then((response) => {
+                        console.log(response);
                         if (response) {
-                            this.props?.createsideBar(response?.value[0])
+                            this.props?.createsideBar(response?.value)
                             this.props?.setactiveId(response?.value[0]?.id)
                         }
                     })
@@ -102,7 +103,7 @@ class Sidebar extends React.Component {
                 createBlock(sidebarReq).then((response) => {
                     if (response) {
                         console.log(response?.value[0]);
-                        this.props.createsideBar(response?.value[0])
+                        this.props.createsideBar(response?.value)
                         this.props.setactiveId(id)
                     }
                 })
@@ -148,7 +149,11 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
     // console.log(state, state?.sidebar.data, "store redcers object");
-    return { sidebarList: state?.sidebar?.data || [], sidebaractiveId: state?.sidebar?.activeId || '' }
+    return { 
+        sidebarList: state?.sidebar?.data || [], 
+        sidebaractiveId: state?.sidebar?.activeId || '',
+        token: state?.authentication?.token || '',
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

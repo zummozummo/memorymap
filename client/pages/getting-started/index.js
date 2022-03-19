@@ -25,15 +25,21 @@ class GettingStarted extends React.Component {
     }
 
     componentDidMount(prevProps) {
+
         // console.log(prevProps.isLoggedin, this.props.isLoggedin, prevProps.isSignedin, this.props.isSignedin);
         // if (prevProps.isLoggedin !== this.props.isLoggedin || prevProps.isSignedin !== this.props.isSignedin) {
             if (this.props.isLoggedin && this.props.isSignedin) {
                 // this.fetchData()
-                getBlock({ 'token': this.props.token }).then((response) => {
+                getBlock(this.props?.token).then((response) => {
                     console.log(response);
                     this.setState({ sidebarList: response?.value }, () => {
-                        this.props.createsideBar(response?.value) //check
-                        this.props.setactiveId(response?.value?.[0].id)
+                        this.props.createsideBar(response?.value)
+                        this.props.setactiveId(response?.value?.[0].id) 
+                        console.log(this.props?.sidebaractiveId,"this.props?.sidebaractiveId");
+                        getBlock(response?.value?.[0].id).then((response) => {  // change it later to above console value
+                            console.log(response);
+                            this.props?.saveEditor(response?.value)    // not required actually
+                        })
                     })
                 })
             } else if (!this.props.isLoggedin && this.props.isSignedin) {
@@ -54,7 +60,7 @@ class GettingStarted extends React.Component {
                             const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
                             createBlock(sidebarReq).then((response) => {
                                 if (response) {
-                                    this.props.createsideBar(response?.value[0])
+                                    this.props.createsideBar(response?.value)
                                     this.props.setactiveId(id)
                                 }
                             })

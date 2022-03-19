@@ -8,7 +8,7 @@ const sidebarReducer = (state = initState, action) => {
 	// let id = action.id || 0;
 	switch (action.type) {
 		case CREATE_SIDEBAR:
-			state?.data?.push(action.payload)
+			state.data = (action.payload)
 			console.log(state.data);
 			return state
 				// ...state,

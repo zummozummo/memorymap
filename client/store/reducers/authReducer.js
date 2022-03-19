@@ -15,7 +15,7 @@ const authReducer = (state = { token: null, isSignedin: false, isLoggedin: false
     case SIGNIN_AUTH:
       return { ...state, token: action.payload, isSignedin: true, isLoggedin: true };
     case SIGNOUT_AUTH:
-      return { token: null, isSignedin: true, isLoggedin: false };
+      return { token: null, isSignedin: false, isLoggedin: false };
     default:
       return state;
   }

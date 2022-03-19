@@ -29,8 +29,8 @@ class Editor extends React.Component {
     handleEditorData = () => {
         const { editorData } = this.state;
         
-        const editorRequest = { "id": this.props.sidebaractiveId, "value": [editorData], "type": 'editor-file' }
-        updateBlock(editorRequest).then((response) => {
+        const editorRequest = {"value": [editorData], "type": 'editor-file' }
+        updateBlock(editorRequest, this.props.sidebaractiveId).then((response) => {
             if (response) {
                 // this.props?.updateEditor(editorRequest)    // not required actually
                 // this.props?.updateSidebarId(response?.id)
