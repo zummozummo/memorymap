@@ -54,19 +54,20 @@ class Sidebar extends React.Component {
     }
 
     renderSideBarList = () => {
-        const { data, sidebaractiveId } = this.state;
-        console.log("data", this.props.sidebarList, this.props.sidebarList.length);
+        const { data } = this.state;
+        const { sidebaractiveId } = this.props;
+        // console.log("data", this.props.sidebarList, this.props.sidebarList);
         return (
-            // this.props.sidebarList && 
-            this.props.sidebarList.filter((el) => {
-                console.log("el", el);
-                return <SidebarItem title={el?.id}/>
+            this.props.sidebarList && 
+            this.props.sidebarList.map((el) => {
+                // console.log("el", el);
+                return <SidebarItem title={el?.id} activeId={el?.id === sidebaractiveId}/>
             })
         )
     }
 
     renderSideBar = () => {
-        const { data, sidebaractiveId } = this.state;
+        // const { data, sidebaractiveId } = this.state;
         // console.log(sidebaractiveId);
         return (
             <React.Fragment>
@@ -100,6 +101,7 @@ class Sidebar extends React.Component {
                 const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
                 createBlock(sidebarReq).then((response) => {
                     if (response) {
+                        console.log(response?.value[0]);
                         this.props.createsideBar(response?.value[0])
                         this.props.setactiveId(id)
                     }
@@ -109,14 +111,14 @@ class Sidebar extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        // console.log(prevProps.sidebarList, this.props.sidebarList);
+        // console.log("sidebar lis updated", prevProps.sidebarList, this.props.sidebarList);
         // if (this.state.data !== this.props.sidebarList) {
         //     this.setState({ data: this.props.sidebarList })
         // }
         // console.log(prevProps.sidebarId, this.props.sidebarId);
         if (prevProps.sidebarId !== this.props.sidebarId) {
             // console.log("if");
-            this.handleSidebar()
+            // this.handleSidebar()
         }
     }
 
@@ -129,7 +131,7 @@ class Sidebar extends React.Component {
     }
     render() {
         const {data} = this.state;
-        console.log(this.props.sidebarList);
+        // console.log(this.props.sidebarList);
         return (
             <div className={classes.sidebar}>
                 {this.renderSideBar()}
@@ -145,7 +147,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state, state?.sidebar.data, "store redcers object");
+    // console.log(state, state?.sidebar.data, "store redcers object");
     return { sidebarList: state?.sidebar?.data || [], sidebaractiveId: state?.sidebar?.activeId || '' }
 }
 

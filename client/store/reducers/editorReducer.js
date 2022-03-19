@@ -1,4 +1,4 @@
-import { FETCH_EDITOR, SAVE_EDITOR } from "../actionTypes";
+import { FETCH_EDITOR, SAVE_EDITOR, UPDATE_EDITOR } from "../actionTypes";
 
 const editorReducer = (state = { data: [] }, action) => {
 	// console.log("editorReducer", state, action);
@@ -9,6 +9,11 @@ const editorReducer = (state = { data: [] }, action) => {
 				data: [action.payload]
 			}
 			case FETCH_EDITOR:
+				return {
+					...state.data
+				}
+			case UPDATE_EDITOR:
+				// console.log(action.payload);
 				return {
 					...state.data
 				}

@@ -2,7 +2,8 @@ import React from "react"
 import Link from 'next/link'
 import classes from './Header.module.css';
 import Logo from '../../Presentational/Logo';
-
+import { logout } from '../../../../store/actions/authActions';
+import { connect } from 'react-redux';
 
 const menuList = [
 	{
@@ -38,6 +39,12 @@ class Header extends React.Component {
 							<li>
 								<Link href='/auth/SignIn'><a>SIGNIN</a></Link>
 							</li>
+							<li>
+								<Link href='/auth/LogOut'><a>SIGNOUT</a></Link>
+							</li>
+							{/* <li>
+								<Link onClick={()=>{this.props.logout()}}><a>SIGNOUT</a></Link>
+							</li> */}
 						</ul>
 				</header>
 			</React.Fragment>
@@ -45,5 +52,8 @@ class Header extends React.Component {
 	}
 }
 
+const mapDispatchToProps = {
+	logout
+}
 
-export default Header
+export default connect(null, mapDispatchToProps)(Header);

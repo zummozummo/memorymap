@@ -2,9 +2,10 @@ import React from "react"
 import classes from './Editor.module.css';
 import '../../../../assets/icons-search.svg'
 import './icons-search.svg'
-import { saveEditor } from "../../../../store/actions/editorActions";
+import { saveEditor, updateEditor } from "../../../../store/actions/editorActions";
+import { fetchactiveId } from "../../../../store/actions/sidebarActions";
 import { connect } from 'react-redux';
-import { createBlock } from '../../../../store/helpers/editor';
+import { createBlock, updateBlock } from '../../../../store/helpers/editor';
 // import { saveSidebarId } from '../../../../store/helpers/sidebar';
 
 class Editor extends React.Component {
@@ -12,10 +13,10 @@ class Editor extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: this.props.editorData,
+            editorData: this.props.sidebaractiveId,
+            sidebaractiveId: this.props.sidebaractiveId,
             textSearch: 'dummy text'
         }
-        console.log("consytr",this.props);
     }
 
     handleInputChange = () => {
@@ -25,47 +26,63 @@ class Editor extends React.Component {
         })
     }
 
-    renderEditor = () => {
-        const { data } = this.state;
+    handleEditorData = () => {
+        const { editorData } = this.state;
+        
+        const editorRequest = { "id": this.props.sidebaractiveId, "value": [editorData], "type": 'editor-file' }
+        updateBlock(editorRequest).then((response) => {
+            if (response) {
+                // this.props?.updateEditor(editorRequest)    // not required actually
+                // this.props?.updateSidebarId(response?.id)
+            }
+        })
+        // this.props.updateEditor({data: editorData})
+    }
 
-        // console.log(data);
+    renderEditor = () => {
+        const { editorData } = this.state;
+        console.log(editorData);
         return (
-            data && data.map((el) => {
-                return <ul><li>{el?.type}---{el?.value || 'none'}</li></ul>
-            })
+            <div>
+                <textarea id="textarea1"
+                    class="input shadow"
+                    name="editorData"
+                    rows="15"
+                    cols="100"
+                    placeholder="Your text here " onChange={this.handleInputChange} value={editorData}>
+                </textarea>
+            </div>
         )
-        return (<React.Fragment>
-            {data[0].value}----{data.type}
-            {/* <label className={classes.labelField} for="text">Search...</label>
-            < input className = { classes.inputSearch } placeholder = "Search..." type = "text" name = "textSearch" id = "text" onChange = { this.handleInputChange } value = { this.state.textSearch } />
-            <img className={classes.icon} alt="search" src="/icons-search.svg" /> */}
-            </React.Fragment>)
+        // console.log(data);
+        // return (
+        //     data && data.map((el) => {
+        //         return <ul><li>{el?.type}---{el?.value || 'none'}</li></ul>
+        //     })
+        // )
+        // return (<React.Fragment>
+        //     {data[0].value}----{data.type}
+        //     {/* <label className={classes.labelField} for="text">Search...</label>
+        //     < input className = { classes.inputSearch } placeholder = "Search..." type = "text" name = "textSearch" id = "text" onChange = { this.handleInputChange } value = { this.state.textSearch } />
+        //     <img className={classes.icon} alt="search" src="/icons-search.svg" /> */}
+        //     </React.Fragment>)
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.editorData !== this.props.editorData) {
-            this.setState({ data: this.props.editorData })
+        if (prevProps.sidebaractiveId !== this.props.sidebaractiveId) {
+            this.setState({ sidebaractiveId: this.props.sidebaractiveId, editorData: this.props.sidebaractiveId })
         }
     }
 
-    componentDidMount()  {
+    componentDidMount() {
         // condition for signup'
-        console.log(this.props);
-        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhthis.props");
         
-        const editorRequest = { "value": [""], "type": 'editor-file' }
-        createBlock(editorRequest).then((response) => {
-            if (response) {
-                this.props?.saveEditor(editorRequest)    // not required actually
-                this.props?.saveSidebarId(response?.id)
-            }
-        })
     }
 
     render() {
         return (
             <div className={classes.editor}>
                 {this.renderEditor()}
+                <div><button type="submit" onClick={this.handleEditorData} value="save editor">save editor</button></div>
             </div>
         )
     }
@@ -83,12 +100,13 @@ class Editor extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-	// console.log("state", state);
-	return {editorData: state?.editor?.data || []};
+    return { editorData: state?.editor?.data || [], sidebaractiveId: state?.sidebar?.activeId || '' };
 }
 
 const mapDispatchToProps = {
     saveEditor,
+    fetchactiveId,
+    updateEditor,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Editor);

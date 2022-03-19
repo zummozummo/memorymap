@@ -1,5 +1,5 @@
 import { apiWrapper } from "../../helpers/apiWrapper";
-import { FETCH_EDITOR, SAVE_EDITOR, CREATE_SIDEBAR } from "../actionTypes";
+import { FETCH_EDITOR, SAVE_EDITOR, CREATE_SIDEBAR, UPDATE_EDITOR } from "../actionTypes";
 
 
 export const saveEditor = (data) => async (dispatch) => {
@@ -14,3 +14,7 @@ export const fetchEditor = (id) => (dispatch) => {
   
 }
 
+export const updateEditor = (data) => async (dispatch) => {
+  // console.log(data);
+  dispatch({ type: UPDATE_EDITOR, payload: data })
+}

@@ -14,8 +14,8 @@ class SidebarItem extends React.Component {
     render() {
         const {} = this.state;
         const {title} = this.props;
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaas");
-        return (<div>
+        // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaas");
+        return (<div style={{color: this.props.activeId ? 'red' : 'black'}}>
             {title}
         </div>)
     }

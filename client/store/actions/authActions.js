@@ -1,25 +1,46 @@
 import { apiWrapper } from "../../helpers/apiWrapper";
-import { AUTHENTICATE, DEAUTHENTICATE } from "../actionTypes";
+import { AUTHENTICATE, DEAUTHENTICATE, SIGNIN_AUTH, SIGNUP_AUTH, SIGNOUT_AUTH } from "../actionTypes";
 import cookie from "js-cookie";
 
 export const authenticate = (user) => (dispatch) =>
  apiWrapper.post(`/api/users/signin`, user).then((data) => {
     setCookie("token", data.id);
-    // Router.push("/");
-    dispatch({ type: AUTHENTICATE, payload: data.id });
+    localStorage.setItem("token", data.id);
+    dispatch({ type: SIGNIN_AUTH, payload: data.id });
   })
   .catch((err) => console.log(err));
 
 export const signup = (user) => (dispatch) =>
  apiWrapper.post(`/api/users/signup`, user).then((data) => {
     setCookie("token", data.id);
-    // Router.push("/");
-    dispatch({ type: AUTHENTICATE, payload: data.id });
+    localStorage.setItem("token", data.id);
+
+    dispatch({ type: SIGNUP_AUTH, payload: data.id });
   })
   .catch((err) => console.log(err));
 
-  
+  export const logout = () => (dispatch) =>
+  apiWrapper.get(`/api/users/signout`).then((data) => {
+     setCookie("token", null);
+     localStorage.setItem("token", null);
+ 
+     dispatch({ type: SIGNOUT_AUTH });
+   })
+   .catch((err) => console.log(err));
 
+
+
+  //  export const logout = () => (dispatch) =>
+  // console.log("llllllllllllllllllllllllllll");
+  // apiWrapper.get(`/api/users/signout`).then(() => {
+  //    setCookie("token", null);
+  //    localStorage.setItem("token", null);
+ 
+  //    dispatch({ type: SIGNOUT_AUTH });
+  //  })
+  //  .catch((err) => console.log(err));
+   
+  
 // export const login = (credentials) => async (dispatch) => {
 //     const response = await (useRequest({
 //         url: '/api/users/signin',
@@ -38,6 +59,7 @@ export const signup = (user) => (dispatch) =>
 
 
 export const setCookie = (key, value) => {
+  
   if (process.browser) {
     cookie.set(key, value, {
       expires: 1,
