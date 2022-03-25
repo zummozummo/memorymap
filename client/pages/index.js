@@ -1,7 +1,5 @@
 import Head from 'next/head';
 import { Fragment } from 'react';
-import Editor from "../components/common/Smart/Editor/Editor"
-
 
 function HomePage(props) {
     return (
@@ -13,7 +11,6 @@ function HomePage(props) {
             content='Map your memory'
           />
         </Head>
-        <Editor/>
       </Fragment>
         
     )

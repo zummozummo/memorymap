@@ -25,7 +25,7 @@ export const updateBlock = async (data = {}, id) => {
 }
 
 export const getBlock = async (id) => {
-  console.log("id",id);
+  // console.log("id",id);
   return apiWrapper.get(`/api/block/${id}`)
     .then((response) => {
       if (response) {

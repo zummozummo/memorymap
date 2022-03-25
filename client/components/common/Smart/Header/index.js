@@ -53,12 +53,12 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    // console.log("state", state);
     return {
         token: state?.authentication?.token || '',
         isLoggedin: state?.authentication?.isLoggedin,
         isSignedin: state?.authentication?.isSignedin,
-        sidebaractiveId: state?.sidebar?.activeId || '',
+        sidebaractiveId: state?.sidebar?.activeId?.id || '',
         sidebarList: state?.sidebar?.data || [],
         editorData: state?.editor?.data || []
     };

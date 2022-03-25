@@ -1,6 +1,18 @@
 import { apiWrapper } from "../../helpers/apiWrapper";
-import { AUTHENTICATE, DEAUTHENTICATE, SIGNIN_AUTH, SIGNUP_AUTH, SIGNOUT_AUTH } from "../actionTypes";
+import { AUTHENTICATE, DEAUTHENTICATE, SIGNIN_AUTH, SIGNUP_AUTH, SIGNOUT_AUTH, DESTROY_SESSION } from "../actionTypes";
 import cookie from "js-cookie";
+
+export const userInfo = () => async (dispatch) => {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      dispatch({ 
+        type: SIGNIN_AUTH, 
+        payload: { token: accessToken, isSignedin: true, isLoggedin: true } 
+      })
+      return true;      
+    }
+    dispatch({ type: DESTROY_SESSION });
+}
 
 export const authenticate = (user) => (dispatch) =>
  apiWrapper.post(`/api/users/signin`, user).then((data) => {
@@ -24,7 +36,9 @@ export const signup = (user) => (dispatch) =>
      setCookie("token", null);
      localStorage.setItem("token", null);
  
-     dispatch({ type: SIGNOUT_AUTH });
+    //  dispatch({ type: SIGNOUT_AUTH });
+    //  window.location.reload();
+     dispatch({ type: DESTROY_SESSION });
    })
    .catch((err) => console.log(err));
 

@@ -7,16 +7,17 @@ import { fetchactiveId } from "../../../../store/actions/sidebarActions";
 import { connect } from 'react-redux';
 import { createBlock, updateBlock } from '../../../../store/helpers/editor';
 // import { saveSidebarId } from '../../../../store/helpers/sidebar';
-
+// import Quill from 'quill';
 class Editor extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            editorData: this.props.sidebaractiveId,
+        this.state = { 
+            editorData: '',
             sidebaractiveId: this.props.sidebaractiveId,
             textSearch: 'dummy text'
-        }
+        };
+        this.timer = null;
     }
 
     handleInputChange = () => {
@@ -27,21 +28,24 @@ class Editor extends React.Component {
     }
 
     handleEditorData = () => {
-        const { editorData } = this.state;
-        
-        const editorRequest = {"value": [editorData], "type": 'editor-file' }
-        updateBlock(editorRequest, this.props.sidebaractiveId).then((response) => {
-            if (response) {
-                // this.props?.updateEditor(editorRequest)    // not required actually
-                // this.props?.updateSidebarId(response?.id)
-            }
-        })
-        // this.props.updateEditor({data: editorData})
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            const { editorData } = this.state;
+            const editorRequest = { "value": [editorData], "type": 'editor-file' }
+            updateBlock(editorRequest, this.props.sidebaractiveId).then((response) => {
+                if (response) {
+                    // console.log(response);
+                    // this.props?.updateEditor(response)    // not required actually
+                    // this.props?.updateSidebarId(response?.id)
+                }
+                // this.props.updateEditor({data: editorData})
+            })
+        }, 1000);
     }
 
     renderEditor = () => {
         const { editorData } = this.state;
-        console.log(editorData);
+        // console.log(editorData);
         return (
             <div>
                 <textarea id="textarea1"
@@ -49,6 +53,7 @@ class Editor extends React.Component {
                     name="editorData"
                     rows="15"
                     cols="100"
+                    // onKeyUp={this.handleEditorData}
                     placeholder="Your text here " onChange={this.handleInputChange} value={editorData}>
                 </textarea>
             </div>
@@ -67,22 +72,26 @@ class Editor extends React.Component {
         //     </React.Fragment>)
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (prevProps.sidebaractiveId !== this.props.sidebaractiveId) {
-            this.setState({ sidebaractiveId: this.props.sidebaractiveId, editorData: this.props.sidebaractiveId })
+            this.setState({ sidebaractiveId: this.props.sidebaractiveId })
+        }
+        // console.log(prevState.editorData, this.state.editorData);
+            if(prevState.editorData !== this.state.editorData) {
+            this.handleEditorData();
         }
     }
 
     componentDidMount() {
         // condition for signup'
-        
+
     }
 
     render() {
         return (
             <div className={classes.editor}>
                 {this.renderEditor()}
-                <div><button type="submit" onClick={this.handleEditorData} value="save editor">save editor</button></div>
+                {/* <div><button type="submit" onClick={this.handleEditorData} value="save editor">save editor</button></div> */}
             </div>
         )
     }
@@ -100,7 +109,7 @@ class Editor extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { editorData: state?.editor?.data || [], sidebaractiveId: state?.sidebar?.activeId || '' };
+    return { editorData: state?.editor?.data || [], sidebaractiveId: state?.sidebar?.activeId?.id || '' };
 }
 
 const mapDispatchToProps = {

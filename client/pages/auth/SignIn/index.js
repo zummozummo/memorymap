@@ -29,7 +29,7 @@ class Signin extends React.Component {
 	}
 
 	componentDidUpdate(prevState,prevProps) {
-		console.log(this.props.token,"this.props.token");
+		// console.log(this.props.token,"this.props.token");
 		if (this.props.token) {
 			Router.push("/getting-started");
 		}

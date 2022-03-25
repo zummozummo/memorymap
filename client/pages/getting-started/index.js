@@ -7,13 +7,21 @@ import { saveEditor, updateEditor } from "../../store/actions/editorActions";
 import { fetchactiveId, setactiveId } from "../../store/actions/sidebarActions";
 import { createBlock, updateBlock, getBlock } from '../../store/helpers/editor';
 import { getSidebarId, createsideBar } from "../../store/actions/sidebarActions";
+// import Quill from 'quill';
 
+// import dynamic from "next/dynamic";
+
+// const DynamicComponentWithNoSSR = dynamic(() => import("../components/Stories"), {
+//   ssr: false,
+// });
+
+// export default () => <DynamicComponentWithNoSSR />;
 class GettingStarted extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             sidebarId: '',
-            dummySidebar: { id: '', value: 'Untitled Doc', label: 'Untitled Doc', type: 'File' },
+            dummySidebar: { id: '', name: 'Untitled Doc', label: 'Untitled Doc', type: 'File', parent: '' },
             sidebarList: [],
             isLoggedin: props.isLoggedin
         }
@@ -31,13 +39,13 @@ class GettingStarted extends React.Component {
             if (this.props.isLoggedin && this.props.isSignedin) {
                 // this.fetchData()
                 getBlock(this.props?.token).then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     this.setState({ sidebarList: response?.value }, () => {
-                        this.props.createsideBar(response?.value)
-                        this.props.setactiveId(response?.value?.[0].id) 
-                        console.log(this.props?.sidebaractiveId,"this.props?.sidebaractiveId");
+                        this.props.createsideBar(response?.value[0])
+                        this.props.setactiveId(response?.value?.[0]) 
+                        // console.log(this.props?.sidebaractiveId,"this.props?.sidebaractiveId");
                         getBlock(response?.value?.[0].id).then((response) => {  // change it later to above console value
-                            console.log(response);
+                            // console.log(response);
                             this.props?.saveEditor(response?.value)    // not required actually
                         })
                     })
@@ -53,15 +61,16 @@ class GettingStarted extends React.Component {
                         this.setState(prevState => ({
                             dummySidebar: {
                                 ...dummySidebar,
-                                id: response?.id
+                                id: response?.id,
+                                parent: 'global'
                             }
                         }), () => {
                             // console.log("Dss", this.state.dummySidebar);
                             const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
                             createBlock(sidebarReq).then((response) => {
                                 if (response) {
-                                    this.props.createsideBar(response?.value)
-                                    this.props.setactiveId(id)
+                                    this.props.createsideBar(response?.value[0])
+                                    this.props.setactiveId(this.state.dummySidebar)
                                 }
                             })
                         })
@@ -91,7 +100,7 @@ const mapStateToProps = (state) => {
         token: state?.authentication?.token || '',
         isLoggedin: state?.authentication?.isLoggedin,
         isSignedin: state?.authentication?.isSignedin,
-        sidebaractiveId: state?.sidebar?.activeId || '',
+        sidebaractiveId: state?.sidebar?.activeId?.id || '',
         sidebarList: state?.sidebar?.data || [],
         editorData: state?.editor?.data || []
     };
