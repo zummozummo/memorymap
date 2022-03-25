@@ -36,6 +36,7 @@ class Sidebar extends React.Component {
         // console.log(editorRequest);
         createBlock(editorRequest).then((response) => {
             if (response) {
+                console.log("this.props?.sidebarList, null, this.props.sidebaractiveId?.id", this.props?.sidebarList, null, this.props.sidebaractiveId?.id);
                 const ActiveParent = createTree(this.props?.sidebarList, null, this.props.sidebaractiveId?.id)
                 console.log(dummySidebar, response.id);
                 this.setState(prevState => ({
@@ -88,7 +89,7 @@ class Sidebar extends React.Component {
                     updateBlock(sidebarReq, this.props?.token).then((response) => {
                         console.log(response);
                         if (response) {
-                            console.log(ActiveParent);
+                            console.log("ActiveParent", ActiveParent);
                             this.props?.setactiveId(response?.value[0]?.id)
                             ActiveParent === undefined ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
                         }
