@@ -6,7 +6,7 @@ import Router from 'next/router';
 import { createBlock, updateBlock } from '../../../../store/helpers/editor';
 import { getSidebarId, createsideBar, setactiveId, updateSideBar } from "../../../../store/actions/sidebarActions";
 import SidebarItem from "../SidebarItem";
-import createTree  from '../../../../helpers/utils/utils';
+import { createTree, clone }  from '../../../../helpers/utils/utils';
 class Sidebar extends React.Component {
 
     constructor(props) {
@@ -37,7 +37,7 @@ class Sidebar extends React.Component {
         createBlock(editorRequest).then((response) => {
             if (response) {
                 console.log("this.props?.sidebarList, null, this.props.sidebaractiveId?.id", this.props?.sidebarList, null, this.props.sidebaractiveId?.id);
-                const ActiveParent = createTree(this.props?.sidebarList, null, this.props.sidebaractiveId?.id)
+                const ActiveParent = createTree(clone(this.props?.sidebarList), null, this.props.sidebaractiveId?.id)
                 console.log(dummySidebar, response.id);
                 this.setState(prevState => ({
                     dummySidebar: {
@@ -55,7 +55,7 @@ class Sidebar extends React.Component {
                         console.log(response);
                         if (response) {
                             this.props?.setactiveId(response?.value[0])
-                            ActiveParent === undefined ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
+                            ActiveParent === localStorage.getItem('token') ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
                         }
                     })
                 })
@@ -70,7 +70,7 @@ class Sidebar extends React.Component {
         // console.log(editorRequest);
         createBlock(editorRequest).then((response) => {
             if (response) {
-                const ActiveParent = createTree(this.props?.sidebarList, null, this.props.sidebaractiveId?.id)
+                const ActiveParent = createTree(clone(this.props?.sidebarList), null, this.props.sidebaractiveId?.id)
                 this.setState(prevState => ({
                     dummySidebarFolder: {
                         ...dummySidebarFolder,
@@ -90,8 +90,8 @@ class Sidebar extends React.Component {
                         console.log(response);
                         if (response) {
                             console.log("ActiveParent", ActiveParent);
-                            this.props?.setactiveId(response?.value[0]?.id)
-                            ActiveParent === undefined ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
+                            this.props?.setactiveId(response?.value[0])
+                            ActiveParent === localStorage.getItem('token') ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
                         }
                     })
                 })

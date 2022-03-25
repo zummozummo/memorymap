@@ -4,7 +4,7 @@ import Editor from '../../components/common/Smart/Editor/Editor';
 import Sidebar from '../../components/common/Smart/Sidebar/Sidebar';
 import { connect } from 'react-redux';
 import { saveEditor, updateEditor } from "../../store/actions/editorActions";
-import { fetchactiveId, setactiveId } from "../../store/actions/sidebarActions";
+import { fetchactiveId, setactiveId, setAuthId } from "../../store/actions/sidebarActions";
 import { createBlock, updateBlock, getBlock } from '../../store/helpers/editor';
 import { getSidebarId, createsideBar } from "../../store/actions/sidebarActions";
 // import Quill from 'quill';
@@ -39,19 +39,20 @@ class GettingStarted extends React.Component {
             if (this.props.isLoggedin && this.props.isSignedin) {
                 // this.fetchData()
                 getBlock(this.props?.token).then((response) => {
-                    // console.log(response);
-                    this.setState({ sidebarList: response?.value }, () => {
+                    console.log(response);
+                    // this.setState({ sidebarList: response?.value }, () => {
                         this.props.createsideBar(response?.value[0])
                         this.props.setactiveId(response?.value?.[0]) 
-                        // console.log(this.props?.sidebaractiveId,"this.props?.sidebaractiveId");
-                        getBlock(response?.value?.[0].id).then((response) => {  // change it later to above console value
+                        console.log(this.props?.sidebaractiveId,"this.props?.sidebaractiveId");
+                        getBlock(this.props?.sidebaractiveId?.id).then((response) => {  // change it later to above console value
                             // console.log(response);
                             this.props?.saveEditor(response?.value)    // not required actually
                         })
-                    })
+                    // })
                 })
             } else if (!this.props.isLoggedin && this.props.isSignedin) {
                 const editorRequest = { "value": [""], "type": 'editor-file' }
+                typeof window !== 'undefined' && this.props.setAuthId(localStorage.getItem('token'))        //doubt in syntax
                 createBlock(editorRequest).then((response) => {
                     if (response) {
                         const { dummySidebar } = this.state;
@@ -100,7 +101,7 @@ const mapStateToProps = (state) => {
         token: state?.authentication?.token || '',
         isLoggedin: state?.authentication?.isLoggedin,
         isSignedin: state?.authentication?.isSignedin,
-        sidebaractiveId: state?.sidebar?.activeId?.id || '',
+        sidebaractiveId: state?.sidebar?.activeId || '',
         sidebarList: state?.sidebar?.data || [],
         editorData: state?.editor?.data || []
     };
@@ -112,7 +113,8 @@ const mapDispatchToProps = {
     updateEditor,
     createsideBar,
     setactiveId,
-    getSidebarId
+    getSidebarId,
+    setAuthId
 }
 
 

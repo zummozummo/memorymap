@@ -1,5 +1,6 @@
 import { apiWrapper } from "../../helpers/apiWrapper";
-import { FETCH_SIDEBAR, SAVE_SIDEBAR, CREATE_SIDEBAR, UPDATE_SIDEBAR, SET_ACTIVEID, FETCH_ACTIVEID } from "../actionTypes";
+
+import { FETCH_SIDEBAR, SAVE_SIDEBAR, CREATE_SIDEBAR, UPDATE_SIDEBAR, SET_ACTIVEID, FETCH_ACTIVEID, SET_AUTHID } from "../actionTypes";
 
 
 
@@ -23,4 +24,7 @@ export const getSidebarId = (data) => async (dispatch) => {
 
 export const fetchactiveId = (data) => (dispatch) => {
     dispatch({ type: FETCH_ACTIVEID });
+}
+export const setAuthId = (data) => (dispatch) => {
+    dispatch({ type: SET_AUTHID, payload: data });
 }

@@ -13,8 +13,10 @@ const defaultSidebar = {
 	activeId: {}
 };
   
+const defaultAuth = { token: null, isSignedin: false, isLoggedin: false }
   
-  
+const defaultEditor = { data: [] };
+
   const appReducer = combineReducers({
     authentication: authReducer,
   sidebar: sidebarReducer,
@@ -25,7 +27,7 @@ const defaultSidebar = {
     // console.log(action, action.type == 'DESTROY_SESSION');
     if (action.type == 'DESTROY_SESSION') {
       // console.log("s", state);
-      state = {authentication: undefined, sidebar: undefined, editor: undefined};
+      state = {authentication: defaultAuth, sidebar: defaultSidebar, editor: defaultEditor};
     }
   console.log(state);
     return appReducer(state, action);

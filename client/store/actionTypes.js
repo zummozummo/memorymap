@@ -12,6 +12,7 @@ export const SIGNUP_AUTH = "SIGNUP_AUTH";
 export const SIGNOUT_AUTHSIGNOUT_AUTH = "SIGNOUT_AUTH";
 export const DESTROY_SESSION = "DESTROY_SESSION";
 export const UPDATE_SIDEBAR = "UPDATE_SIDEBAR";
+export const SET_AUTHID = "SET_AUTHID";
 
 
 
