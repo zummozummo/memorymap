@@ -29,7 +29,7 @@ const defaultEditor = { data: [] };
       // console.log("s", state);
       state = {authentication: defaultAuth, sidebar: defaultSidebar, editor: defaultEditor};
     }
-  console.log(state);
+  // console.log(state);
     return appReducer(state, action);
   };
   export default rootReducer;

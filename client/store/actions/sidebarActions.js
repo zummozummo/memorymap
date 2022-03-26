@@ -5,13 +5,11 @@ import { FETCH_SIDEBAR, SAVE_SIDEBAR, CREATE_SIDEBAR, UPDATE_SIDEBAR, SET_ACTIVE
 
 
 export const createsideBar = (data) => (dispatch) => {
-    // console.log(data);
     dispatch({ type: CREATE_SIDEBAR, payload: data });
 }
 
-export const updateSideBar = (id, data) => (dispatch) => {
-    console.log(data);
-    dispatch({ type: UPDATE_SIDEBAR, payload: {id, data} });
+export const updateSideBar = (newList) => (dispatch) => {
+    dispatch({ type: UPDATE_SIDEBAR, payload: newList });
 }
 
 export const setactiveId = (data) => (dispatch) => {
@@ -19,7 +17,6 @@ export const setactiveId = (data) => (dispatch) => {
 }
 
 export const getSidebarId = (data) => async (dispatch) => {
-    // console.log(data);
 }
 
 export const fetchactiveId = (data) => (dispatch) => {

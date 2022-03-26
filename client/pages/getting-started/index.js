@@ -34,18 +34,13 @@ class GettingStarted extends React.Component {
 
     componentDidMount(prevProps) {
 
-        // console.log(prevProps.isLoggedin, this.props.isLoggedin, prevProps.isSignedin, this.props.isSignedin);
-        // if (prevProps.isLoggedin !== this.props.isLoggedin || prevProps.isSignedin !== this.props.isSignedin) {
             if (this.props.isLoggedin && this.props.isSignedin) {
                 // this.fetchData()
                 getBlock(this.props?.token).then((response) => {
-                    console.log(response);
                     // this.setState({ sidebarList: response?.value }, () => {
                         this.props.createsideBar(response?.value[0])
                         this.props.setactiveId(response?.value?.[0]) 
-                        console.log(this.props?.sidebaractiveId,"this.props?.sidebaractiveId");
                         getBlock(this.props?.sidebaractiveId?.id).then((response) => {  // change it later to above console value
-                            // console.log(response);
                             this.props?.saveEditor(response?.value)    // not required actually
                         })
                     // })
@@ -63,7 +58,7 @@ class GettingStarted extends React.Component {
                             dummySidebar: {
                                 ...dummySidebar,
                                 id: response?.id,
-                                parent: 'global'
+                                parent: localStorage.getItem('token')
                             }
                         }), () => {
                             // console.log("Dss", this.state.dummySidebar);
@@ -96,7 +91,6 @@ class GettingStarted extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log("state", state);
     return {
         token: state?.authentication?.token || '',
         isLoggedin: state?.authentication?.isLoggedin,

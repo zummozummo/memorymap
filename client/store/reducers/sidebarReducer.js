@@ -2,7 +2,7 @@ import { getCookie } from "../actions/authActions";
 import { FETCH_SIDEBAR, CREATE_SIDEBAR, UPDATE_SIDEBAR, SET_ACTIVEID, FETCH_ACTIVEID, SET_AUTHID } from "../actionTypes";
 
 const initState = {
-	data: {parent: 'global', id: typeof window !== 'undefined' ? localStorage.getItem('token') || getCookie('token') : 'dd', items:[]}, 
+	data: {parent: 'global', id: typeof window !== 'undefined' ? localStorage.getItem('token') : null, items:[]}, 
 	activeId: {}
 };
 // [{id: '', value: 'Untitled Doc', label: 'Untitled Doc', type: 'File'}]
@@ -12,17 +12,7 @@ const sidebarReducer = (state = initState, action) => {
 	// let id = action.id || 0;
 	switch (action.type) {
 		case CREATE_SIDEBAR:
-			console.log(state, action.payload);
-			// const newobj = {
-			// 	...state,
-			// 	data: {
-			// 		...state.data,
-			// 		items: [
-			// 			...state.data.items, action.payload
-			// 		]
-			// 	}
-			// }
-			// console.log(newobj);
+			// console.log(state, action.payload);
 			return {
 				...state,
 				data: {
@@ -34,11 +24,20 @@ const sidebarReducer = (state = initState, action) => {
 			}
 			case UPDATE_SIDEBAR:
 				console.log(action);
-				// state.data
-				console.log("state", state);
-				
-				
-				return state
+				// state.data newBlock, newBlockParent
+				// console.log("state", state);
+				// return Object.assign({}, state, {
+				// 	data: Object.assign({}, state.data, {
+				// 	  items: Object.assign({}, state.data.items, {
+				// 		...action.payload.items
+				// 	  })
+				// 	})
+				//   });
+				// return Object.assign({}, state, {
+				// 	data: Object.assign({}, state.data, action.payload)
+				//   });
+				return {...state, 
+					data: action.payload}
 			case FETCH_SIDEBAR:
 				return {
 					// ...state,

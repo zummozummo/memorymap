@@ -57,13 +57,23 @@ export function createTree(obj, parent = null, targetId = null) {
   if (targetId === obj.id) {
     return climbTree(obj);
   }
-console.log("obj", obj);
 if (obj?.items) {
   for (let node of obj.items) {
     createTree(node, obj, targetId);
   }
 }
+  return arr
+}
 
-  console.log(arr[arr.length - 2] || arr?.[0]);
-  return arr[arr.length - 2] || arr?.[0];
+export function FindAcitveFolPushNew(obj, newBlock, targetId) {
+  if (targetId === obj.id) {
+    obj.items.push(newBlock)
+    return obj
+  }
+if (obj?.items) {
+  for (let node of obj.items) {
+    FindAcitveFolPushNew(node, newBlock, targetId);
+  }
+}
+return obj
 }

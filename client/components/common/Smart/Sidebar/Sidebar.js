@@ -6,7 +6,7 @@ import Router from 'next/router';
 import { createBlock, updateBlock } from '../../../../store/helpers/editor';
 import { getSidebarId, createsideBar, setactiveId, updateSideBar } from "../../../../store/actions/sidebarActions";
 import SidebarItem from "../SidebarItem";
-import { createTree, clone }  from '../../../../helpers/utils/utils';
+import { createTree, clone, FindAcitveFolPushNew }  from '../../../../helpers/utils/utils';
 class Sidebar extends React.Component {
 
     constructor(props) {
@@ -33,29 +33,25 @@ class Sidebar extends React.Component {
     handleFile = (type = 'editor-file') => {
         const { dummySidebar } = this.state;
         const editorRequest = { "value": [""], "type": type }
-        // console.log(editorRequest);
         createBlock(editorRequest).then((response) => {
             if (response) {
-                console.log("this.props?.sidebarList, null, this.props.sidebaractiveId?.id", this.props?.sidebarList, null, this.props.sidebaractiveId?.id);
-                const ActiveParent = createTree(clone(this.props?.sidebarList), null, this.props.sidebaractiveId?.id)
-                console.log(dummySidebar, response.id);
+                const arr = createTree(clone(this.props?.sidebarList), null, this.props.sidebaractiveId?.id)
+                const ActiveParent = this.props.sidebaractiveId.type === 'File' ? arr[arr.length - 2] || arr?.[0] : arr?.[1] || arr?.[0];
+
                 this.setState(prevState => ({
                     dummySidebar: {
                         ...dummySidebar,
                         id: response?.id,
-                        parent: ActiveParent
+                        parent: this.props.sidebaractiveId.type === 'Folder' ? this.props.sidebaractiveId : ActiveParent
                     }
                 }), () => {
-                    // console.log("this.props.sidebaractiveId", this.props.sidebaractiveId);
-                    console.log(ActiveParent, this.state.dummySidebar);
-                    console.log("this.props?.sidebarList", this.props?.sidebarList);
-
+                    const newList = (FindAcitveFolPushNew(clone(this.props?.sidebarList), this.state.dummySidebar, this.props.sidebaractiveId.type === 'Folder' ? this.props.sidebaractiveId.id : ActiveParent));
+                    // const newList = this.props.sidebaractiveId.type === 'Folder' ? FindAcitveFolPushNew(clone(this.props?.sidebarList), this.state.dummySidebar, ActiveParent, this.props.sidebaractiveId) : FindAcitveFilePushNew()
                     const sidebarReq = { type: 'sidebar', value: this.state.dummySidebar };
                     updateBlock(sidebarReq, this.props?.token).then((response) => {
-                        console.log(response);
                         if (response) {
+                            const res = ActiveParent === localStorage.getItem('token') ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(newList)
                             this.props?.setactiveId(response?.value[0])
-                            ActiveParent === localStorage.getItem('token') ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
                         }
                     })
                 })
@@ -67,31 +63,25 @@ class Sidebar extends React.Component {
     handleFolder = (type = 'editor-folder') => {
         const { dummySidebarFolder } = this.state;
         const editorRequest = { "value": [""], "type": type }
-        // console.log(editorRequest);
         createBlock(editorRequest).then((response) => {
             if (response) {
-                const ActiveParent = createTree(clone(this.props?.sidebarList), null, this.props.sidebaractiveId?.id)
+                const arr = createTree(clone(this.props?.sidebarList), null, this.props.sidebaractiveId?.id)
+                const ActiveParent = this.props.sidebaractiveId.type === 'File' ? arr[arr.length - 2] || arr?.[0] : arr?.[1] || arr?.[0];
                 this.setState(prevState => ({
                     dummySidebarFolder: {
                         ...dummySidebarFolder,
                         id: response?.id,
-                        parent: ActiveParent
+                        parent: this.props.sidebaractiveId.type === 'Folder' ? this.props.sidebaractiveId : ActiveParent
                     }
                 }), () => {
-                    // console.log("this.state.dummySidebarFolder", this.state.dummySidebarFolder);
-                    // console.log("this.props?.sidebarList", this.props?.sidebarList);
-                    // console.log("this.props.sidebaractiveId", this.props.sidebaractiveId);
-                    // console.log(createTree(this.props?.sidebarList, null, this.props.sidebaractiveId?.id));
-                    // typeof currently selected
+                    const newList = (FindAcitveFolPushNew(clone(this.props?.sidebarList), this.state.dummySidebarFolder, this.props.sidebaractiveId.type === 'Folder' ? this.props.sidebaractiveId.id : ActiveParent));
                     // if folder append in currently selected items parent
                     // if file append in parent tht can be file or folder
                     const sidebarReq = { type: 'sidebar', value: this.state.dummySidebarFolder };
                     updateBlock(sidebarReq, this.props?.token).then((response) => {
-                        console.log(response);
                         if (response) {
-                            console.log("ActiveParent", ActiveParent);
+                            const res = ActiveParent === localStorage.getItem('token') ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(newList)
                             this.props?.setactiveId(response?.value[0])
-                            ActiveParent === localStorage.getItem('token') ? this.props.createsideBar(response?.value[0]) : this.props?.updateSideBar(ActiveParent, response?.value[0])
                         }
                     })
                 })
@@ -103,19 +93,14 @@ class Sidebar extends React.Component {
     renderSideBarList = () => {
         const { data } = this.state;
         const { sidebaractiveId, sidebarListItems } = this.props;
-        console.log("data", this.props.sidebarList);
         return (
-            // this.props.sidebarList && this.props.sidebarList?.items && 
             sidebarListItems.map((el) => {
-                console.log("el", el, sidebaractiveId);
-                return <SidebarItem title={el?.name} activeId={el?.id === sidebaractiveId?.id} />
+                return <SidebarItem title={el?.id} activeId={el?.id === sidebaractiveId?.id} />
             })
         )
     }
 
     renderSideBar = () => {
-        // const { data, sidebaractiveId } = this.state;
-        // console.log(sidebaractiveId);
         return (
             <React.Fragment>
                 <div onClick={() => { this.handleFile('editor-file') }}>add file</div>
@@ -133,7 +118,6 @@ class Sidebar extends React.Component {
     //         // this.setState(prevState => {
     //         //     let dummySidebar = Object.assign({}, prevState.dummySidebar);  // creating copy of state variable jasper
     //         //     dummySidebar.id = id;   
-    //         //     console.log(dummySidebar);                  // update the name property, assign a new value                 
     //         //     return { dummySidebar };                                 // return new object jasper object
     //         //   },()=>{
 
@@ -144,11 +128,9 @@ class Sidebar extends React.Component {
     //                 id: id
     //             }
     //         }),() => {
-    //             // console.log("Dss", this.state.dummySidebar);
     //             const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
     //             createBlock(sidebarReq).then((response) => {
     //                 if (response) {
-    //                     console.log(response?.value[0]);
     //                     this.props.createsideBar(response?.value)
     //                     this.props.setactiveId(id)
     //                 }
@@ -158,11 +140,9 @@ class Sidebar extends React.Component {
     // }
 
     componentDidUpdate(prevProps) {
-        // console.log("sidebar lis updated", prevProps.sidebarList, this.props.sidebarList);
         // if (this.state.data !== this.props.sidebarList) {
         //     this.setState({ data: this.props.sidebarList })
         // }
-        // console.log(prevProps.sidebarId, this.props.sidebarId);
         if (prevProps.sidebarId !== this.props.sidebarId) {
             // console.log("if");
             // this.handleSidebar()
@@ -170,15 +150,12 @@ class Sidebar extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        // console.log(prevState.data, nextProps.sidebarList);
         // if (prevState.data !== nextProps.sidebarList) {
-        //     console.log("in");
         //     this.setState({ data: this.props.sidebarList })
         // }
     }
     render() {
         const { data } = this.state;
-        // console.log(this.props.sidebarList);
         return (
             <div className={classes.sidebar}>
                 {this.renderSideBar()}
