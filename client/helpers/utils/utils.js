@@ -29,6 +29,18 @@
 // console.log(arr.join("-"));
 
 
+//cloning an object so that it can be pass by value not reference
+export const clone = (obj) => {
+  if(obj == null || typeof(obj) != 'object')
+      return obj;
+
+  var temp = new obj.constructor(); 
+  for(var key in obj)
+      temp[key] = clone(obj[key]);
+
+  return temp;
+}
+
 let arr = [];
 
 function climbTree(obj) {
@@ -39,7 +51,7 @@ function climbTree(obj) {
   }
 }
 
-function createTree(obj, parent = null, targetId = null) {
+export function createTree(obj, parent = null, targetId = null) {
   obj.parent = parent;
 
   if (targetId === obj.id) {
@@ -55,5 +67,3 @@ if (obj?.items) {
   console.log(arr[arr.length - 2] || arr?.[0]);
   return arr[arr.length - 2] || arr?.[0];
 }
-
-export default createTree;
