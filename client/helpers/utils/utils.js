@@ -3,43 +3,40 @@
 //debounce function
 
 //dfs
-// let arr = []; 
-// function climbTree(obj) { 
-//   arr.unshift(obj.id); 
-//   if (obj.parent) { 
-//     climbTree(obj.parent); 
-//   } 
-// } 
+// let arr = [];
+// function climbTree(obj) {
+//   arr.unshift(obj.id);
+//   if (obj.parent) {
+//     climbTree(obj.parent);
+//   }
+// }
 
-// const createTree = (obj, parent = {}, targetId = null) => { 
+// const createTree = (obj, parent = {}, targetId = null) => {
 //     console.log("Aa", parent);
-//   // obj.parent = parent?.id; 
-//   if (targetId === obj.id) { 
-//     return climbTree(obj); 
-//   } 
+//   // obj.parent = parent?.id;
+//   if (targetId === obj.id) {
+//     return climbTree(obj);
+//   }
 //   console.log(obj);
 //   for (let node of obj?.items) {
-//     console.log(node, obj, targetId); 
-//     createTree(node, obj, targetId); 
+//     console.log(node, obj, targetId);
+//     createTree(node, obj, targetId);
 //   }
 //   // console.log(arr);
 //   // const idAdjacent = arr.length > 1 ? arr[arr.length - 2] : arr?.[0]
 //   return arr[arr.length - 2] || arr?.[0]
-// } 
+// }
 // console.log(arr.join("-"));
-
 
 //cloning an object so that it can be pass by value not reference
 export const clone = (obj) => {
-  if(obj == null || typeof(obj) != 'object')
-      return obj;
+  if (obj == null || typeof obj != "object") return obj;
 
-  var temp = new obj.constructor(); 
-  for(var key in obj)
-      temp[key] = clone(obj[key]);
+  var temp = new obj.constructor();
+  for (var key in obj) temp[key] = clone(obj[key]);
 
   return temp;
-}
+};
 
 let arr = [];
 
@@ -57,23 +54,24 @@ export function createTree(obj, parent = null, targetId = null) {
   if (targetId === obj.id) {
     return climbTree(obj);
   }
-if (obj?.items) {
-  for (let node of obj.items) {
-    createTree(node, obj, targetId);
+  if (obj?.items) {
+    for (let node of obj.items) {
+      createTree(node, obj, targetId);
+    }
   }
-}
-  return arr
+  console.log(arr);
+  return arr;
 }
 
 export function FindAcitveFolPushNew(obj, newBlock, targetId) {
   if (targetId === obj.id) {
-    obj.items.push(newBlock)
-    return obj
+    obj.items.push(newBlock);
+    return obj;
   }
-if (obj?.items) {
-  for (let node of obj.items) {
-    FindAcitveFolPushNew(node, newBlock, targetId);
+  if (obj?.items) {
+    for (let node of obj.items) {
+      FindAcitveFolPushNew(node, newBlock, targetId);
+    }
   }
-}
-return obj
+  return obj;
 }

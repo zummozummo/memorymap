@@ -1,24 +1,46 @@
-import React from 'react';
+import React from "react";
 
 class SidebarItem extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-        }
-    }
-
-    componentDidMount() {
-
-    }
-    render() {
-        const {} = this.state;
-        const {title} = this.props;
-        // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaas");
-        return (<div style={{color: this.props.activeId ? 'red' : 'black'}}>
-            {title}
-        </div>)
-    }
+  componentDidMount() {}
+  render() {
+    let {
+      label,
+      type,
+      items,
+      depthStep = 10,
+      depth = 0,
+      id,
+      activeId,
+      ...rest
+    } = this.props;
+    return (
+      <div>
+        <div style={{ paddingLeft: depth * depthStep }}>
+          <span style={{ color: id === activeId ? "red" : "black" }}>
+            {label}
+          </span>{" "}
+          {type === "Folder" ? <button>add</button> : null}
+        </div>
+        {Array.isArray(items)
+          ? items.map((subItem) => (
+              <SidebarItem
+                key={subItem.name}
+                id={subItem.id}
+                depth={depth + 1}
+                depthStep={depthStep}
+                activeId
+                {...subItem}
+              />
+            ))
+          : null}
+      </div>
+    );
+  }
 }
 
-export default SidebarItem
+export default SidebarItem;
