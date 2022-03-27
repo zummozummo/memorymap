@@ -151,9 +151,9 @@ class Sidebar extends React.Component {
   renderSideBarList = () => {
     const { data } = this.state;
     const { sidebaractiveId, sidebarListItems } = this.props;
-    console.log(sidebaractiveId);
+    console.log(sidebaractiveId?.id + " ");
     return (
-      <SidebarItem items={sidebarListItems} activeId={sidebaractiveId.id} />
+      <SidebarItem items={sidebarListItems} activeId={sidebaractiveId?.id} />
     );
   };
 

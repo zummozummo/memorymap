@@ -18,6 +18,8 @@ class SidebarItem extends React.Component {
       activeId,
       ...rest
     } = this.props;
+    console.log(activeId);
+    console.log(id);
     return (
       <div>
         <div style={{ paddingLeft: depth * depthStep }}>
@@ -33,7 +35,7 @@ class SidebarItem extends React.Component {
                 id={subItem.id}
                 depth={depth + 1}
                 depthStep={depthStep}
-                activeId
+                activeId={activeId}
                 {...subItem}
               />
             ))
