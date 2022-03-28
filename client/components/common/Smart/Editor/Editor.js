@@ -95,7 +95,7 @@ class Editor extends React.Component {
   render() {
     return (
       <div className={classes.editor}>
-        {this.renderEditor()}
+        {/* {this.renderEditor()} */}
         {/* <div><button type="submit" onClick={this.handleEditorData} value="save editor">save editor</button></div> */}
       </div>
     );

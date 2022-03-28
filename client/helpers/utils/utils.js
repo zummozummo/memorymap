@@ -59,18 +59,36 @@ export function createTree(obj, parent = null, targetId = null) {
       createTree(node, obj, targetId);
     }
   }
-  console.log(arr);
+  // console.log(arr);
   return arr;
 }
 
-export function FindAcitveFolPushNew(obj, newBlock, targetId) {
+export function FindActiveFolPushNew(obj, newBlock, targetId) {
   if (targetId === obj.id) {
     obj.items.push(newBlock);
     return obj;
   }
   if (obj?.items) {
     for (let node of obj.items) {
-      FindAcitveFolPushNew(node, newBlock, targetId);
+      FindActiveFolPushNew(node, newBlock, targetId);
+    }
+  }
+  return obj;
+}
+
+export function FindActiveFolDeleteCur(obj, newBlock, targetId) {
+  if (targetId === obj.id) {
+    console.log(obj,targetId);
+    // obj.items.push(newBlock);
+    const newBlockIndex = obj.items.findIndex(el => el.id === newBlock.id)
+    // console.log("newBlockIndex", newBlock, newBlockIndex);
+    obj.items[newBlockIndex]['delete'] = true
+    // console.log(obj);
+    return obj;
+  }
+  if (obj?.items) {
+    for (let node of obj.items) {
+      FindActiveFolDeleteCur(node, newBlock, targetId);
     }
   }
   return obj;

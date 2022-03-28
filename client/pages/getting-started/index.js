@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import { saveEditor, updateEditor } from "../../store/actions/editorActions";
 import { fetchactiveId, setactiveId, setAuthId } from "../../store/actions/sidebarActions";
 import { createBlock, updateBlock, getBlock } from '../../store/helpers/editor';
-import { getSidebarId, createsideBar } from "../../store/actions/sidebarActions";
+import { getSidebarId, createsideBar, updateSideBar } from "../../store/actions/sidebarActions";
+import {
+	clone,
+	FindActiveFolPushNew,
+} from "../../helpers/utils/utils";
 // import Quill from 'quill';
 
 // import dynamic from "next/dynamic";
@@ -21,7 +25,7 @@ class GettingStarted extends React.Component {
         super(props)
         this.state = {
             sidebarId: '',
-            dummySidebar: { id: '', name: 'Untitled Doc', label: 'Untitled Doc', type: 'File', parent: '' },
+            dummySidebar: { id: '', name: 'Untitled Doc', label: 'Untitled Doc', type: 'File', parent: '', delete: false },
             sidebarList: [],
             isLoggedin: props.isLoggedin
         }
@@ -37,13 +41,15 @@ class GettingStarted extends React.Component {
             if (this.props.isLoggedin && this.props.isSignedin) {
                 // this.fetchData()
                 getBlock(this.props?.token).then((response) => {
-                    // this.setState({ sidebarList: response?.value }, () => {
-                        this.props.createsideBar(response?.value[0])
+                        const newList = clone(this.props?.sidebarList)
+                        for (let node of response.value) {
+                            newList.items.push(node)
+                        }
+                        this.props.updateSideBar(newList)
                         this.props.setactiveId(response?.value?.[0]) 
                         getBlock(this.props?.sidebaractiveId?.id).then((response) => {  // change it later to above console value
                             this.props?.saveEditor(response?.value)    // not required actually
                         })
-                    // })
                 })
             } else if (!this.props.isLoggedin && this.props.isSignedin) {
                 const editorRequest = { "value": [""], "type": 'editor-file' }
@@ -61,7 +67,6 @@ class GettingStarted extends React.Component {
                                 parent: localStorage.getItem('token')
                             }
                         }), () => {
-                            // console.log("Dss", this.state.dummySidebar);
                             const sidebarReq = { value: this.state.dummySidebar, type: 'sidebar' }
                             createBlock(sidebarReq).then((response) => {
                                 if (response) {
@@ -108,7 +113,8 @@ const mapDispatchToProps = {
     createsideBar,
     setactiveId,
     getSidebarId,
-    setAuthId
+    setAuthId,
+    updateSideBar
 }
 
 

@@ -4,17 +4,23 @@ import cookie from "js-cookie";
 import '../styles/globals.css';
 import Layout from '../components/Layouts/Layout';
 import { wrapper } from "../store/index"
+import { useEffect } from 'react';
+import { userInfo } from '../store/actions/authActions';
 
 function MyApp({ Component, pageProps, store }) {
-    var getting = cookie.get('token') || true
-    console.log(getting);    
+    // console.log(token,"token");    
+    useEffect(()=>{
+      // props.dispatch(userInfo())
+    },[]);
+
   return (
     <Layout>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
       </Head>
-      {getting && <Component {...pageProps} />}
+      {typeof window !== 'undefined' && <Component {...pageProps} />}
     </Layout>
   );
 }
+
 export default wrapper.withRedux(MyApp);
