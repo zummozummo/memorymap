@@ -223,7 +223,8 @@ class Sidebar extends React.Component {
 			// <DragDropContext>
 			// 	<Droppable droppableId="characters">
 			// 		{(provided) => (
-						<SidebarItem {...provided.droppableProps} ref={provided.innerRef} provided={provided}
+						<SidebarItem 
+						// {...provided.droppableProps} ref={provided.innerRef} provided={provided}
 						items={sidebarListItems} activeId={sidebaractiveId} SetActive={this.SetActive} SetActiveCallAdd={this.SetActiveCallAdd} SetDelete={this.SetDelete} />
 			// 		)}
 			// 	</Droppable>
