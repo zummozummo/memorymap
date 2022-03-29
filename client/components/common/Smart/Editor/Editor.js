@@ -14,7 +14,7 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorData: "",
+      editorData: this.props.editorData[0],
       sidebaractiveId: this.props.sidebaractiveId,
       textSearch: "dummy text",
     };
@@ -86,6 +86,9 @@ class Editor extends React.Component {
     if (prevState.editorData !== this.state.editorData) {
       this.handleEditorData();
     }
+    if (prevProps.editorData !== this.props.editorData) {
+      this.setState({editorData: this.props.editorData[0]})
+    }
   }
 
   componentDidMount() {
@@ -93,9 +96,10 @@ class Editor extends React.Component {
   }
 
   render() {
+    console.log("editorData", this.props.editorData);
     return (
       <div className={classes.editor}>
-        {/* {this.renderEditor()} */}
+        {this.renderEditor()}
         {/* <div><button type="submit" onClick={this.handleEditorData} value="save editor">save editor</button></div> */}
       </div>
     );
