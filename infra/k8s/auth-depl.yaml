@@ -26,6 +26,11 @@ spec:
                 secretKeyRef:
                   name: mail-secret
                   key: MAIL_PASS
+            - name: GOOGLE_SEC
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: GOOGLE_SEC
 ---
 apiVersion: v1
 kind: Service

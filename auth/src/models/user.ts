@@ -4,13 +4,15 @@ interface UserAttr {
   email: string;
   password: string;
   verified: string;
+  googleId: string;
 }
 
 const userSchema = new Schema<UserAttr>(
   {
     email: { type: String, required: true },
-    password: { type: String, required: true },
+    password: { type: String },
     verified: { type: String, required: true },
+    googleId: { type: String },
   },
   {
     toJSON: {
