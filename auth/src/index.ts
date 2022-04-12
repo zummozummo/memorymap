@@ -7,6 +7,9 @@ const start = async () => {
   if (!process.env.MAIL_PASS) {
     throw new Error("mail password must be provided");
   }
+  if (!process.env.GOOGLE_SEC) {
+    throw new Error("login with google sec not provided");
+  }
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
   } catch (err) {

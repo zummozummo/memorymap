@@ -9,7 +9,8 @@ import { signoutRouter } from "./routes/singout";
 import { forgotPasswordRouter } from "./routes/forgot-password";
 import { errorHandler, NotFoundError } from "@mem_map/common";
 import { resetPasswordRouter } from "./routes/reset-password";
-
+import { GoogleAuth } from "./routes/googleAuth";
+import { googleRedirect } from "./routes/googleAuthRedirect";
 const app = express();
 app.set("trust proxy", true);
 app.use(json());
@@ -26,7 +27,11 @@ app.use(signupRouter);
 app.use(signoutRouter);
 app.use(forgotPasswordRouter);
 app.use(resetPasswordRouter);
+app.use(GoogleAuth);
+app.use(googleRedirect);
 
+// app.use(Oauth20Redirect);
+// app.use(Oauth20);
 app.all("*", async (req, res, next) => {
   next(new NotFoundError());
   // await new NotFoundError());
