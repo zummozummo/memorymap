@@ -18,7 +18,7 @@ import {
 	FindActiveFolPushNew,
 	FindActiveFolDeleteCur
 } from "../../../../helpers/utils/utils";
-
+import { withAuth } from '../RequireAuthentication';
 
 // import('react-beautiful-dnd').then(module =>
 // 	{
@@ -264,11 +264,6 @@ class Sidebar extends React.Component {
 		}
 	}
 
-	static getDerivedStateFromProps(nextProps, prevState) {
-		// if (prevState.data !== nextProps.sidebarList) {
-		//     this.setState({ data: this.props.sidebarList })
-		// }
-	}
 	render() {
 		const { data } = this.state;
 		return <div className={classes.sidebar}>{this.renderSideBar()}</div>;
@@ -292,4 +287,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(withAuth(Sidebar));

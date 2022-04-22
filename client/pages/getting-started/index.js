@@ -11,6 +11,8 @@ import {
 	clone,
 	FindActiveFolPushNew,
 } from "../../helpers/utils/utils";
+// import { userInfo } from '../../store/actions/authActions';
+
 // import Quill from 'quill';
 
 // import dynamic from "next/dynamic";
@@ -86,8 +88,8 @@ class GettingStarted extends React.Component {
         const { sidebarId, sidebarList } = this.state;
         return (
             <div>
-                {(this.props.isLoggedin || this.props.isSignedin) && <Sidebar sidebarId={sidebarId} createEditor={this.createEditor} />}
-                {(this.props.isLoggedin || this.props.isSignedin) && <Editor saveSidebarId={this.saveSidebarId} createEditor={this.createEditor} />}
+                <Sidebar sidebarId={sidebarId} createEditor={this.createEditor} />
+                <Editor saveSidebarId={this.saveSidebarId}/>
             </div>
         )
 
@@ -114,7 +116,7 @@ const mapDispatchToProps = {
     setactiveId,
     getSidebarId,
     setAuthId,
-    updateSideBar
+    updateSideBar,
 }
 
 

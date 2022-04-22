@@ -5,11 +5,11 @@ import Header from '../../common/Smart/Header'
 
 
 const Layout = (props) => {
-    // console.log(props)
+    console.log(props)
     return(
         <main>
             <Header/>
-            {props.children}
+            {/* {props.children} */}
             <Footer/>
         </main>
     )

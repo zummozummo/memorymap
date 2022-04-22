@@ -9,7 +9,13 @@ import {
 import { fetchactiveId } from "../../../../store/actions/sidebarActions";
 import { connect } from "react-redux";
 import { createBlock, updateBlock } from "../../../../store/helpers/editor";
+import { withAuth } from '../RequireAuthentication';
+import { userInfo } from '../../../../store/actions/authActions';
 // import Quill from 'quill';
+
+// const Layout = () => {
+
+
 class Editor extends React.Component {
   constructor(props) {
     super(props);
@@ -113,10 +119,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
+const mapDispatchToProps = (dispatch) => ({
   saveEditor,
   fetchactiveId,
   updateEditor,
-};
+  userInfo
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Editor);
+export default connect(mapStateToProps, mapDispatchToProps)(withAuth(Editor));
+
