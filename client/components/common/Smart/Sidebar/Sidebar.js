@@ -19,6 +19,7 @@ import {
 	FindActiveFolDeleteCur
 } from "../../../../helpers/utils/utils";
 import { withAuth } from '../RequireAuthentication';
+import { userInfo } from '../../../../store/actions/authActions';
 
 // import('react-beautiful-dnd').then(module =>
 // 	{
@@ -275,10 +276,11 @@ const mapDispatchToProps = {
 	setactiveId,
 	getSidebarId,
 	updateSideBar,
+	userInfo
 };
 
 const mapStateToProps = (state) => {
-	console.log(state, state?.sidebar, "store redcers object");
+	// console.log(state, state?.sidebar, "store redcers object");
 	return {
 		sidebarList: state?.sidebar?.data || [],
 		sidebarListItems: state?.sidebar?.data?.items || [],
@@ -287,4 +289,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuth(Sidebar));
+export default connect(mapStateToProps, mapDispatchToProps)((Sidebar));

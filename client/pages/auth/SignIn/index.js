@@ -59,6 +59,7 @@ class Signin extends React.Component {
 					<div className={classes.heading} > <h2 className={classes.text}>Welcome to Memory Map.</h2> </div>
 					{/* <div className={classes.heading} > <h2>Already signed up ? Log in</h2> </div> */}
 					<div className={classes.buttonField}>
+						<a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https%3A%2F%2Fmemorymap.dev%2Fapi%2Fusers%2Fgoogle%2Fcallback&client_id=573267777115-176069s8o4ghodq0qmo541otoqv1nv83.apps.googleusercontent.com&access_type=offline&response_type=code&prompt=consent&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email">
 						<button
 							className={classes.button}
 							type="submit"
@@ -75,6 +76,7 @@ class Signin extends React.Component {
 							/>
 							Login with Google
 						</button>
+						</a>
 					</div>
 					<div className={classes.heading}><span className={classes.text} >OR</span></div>
 					<form onSubmit={this.onSubmit} >

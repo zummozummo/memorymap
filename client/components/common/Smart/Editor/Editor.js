@@ -20,7 +20,7 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorData: this.props.editorData[0],
+      editorData: '',
       sidebaractiveId: this.props.sidebaractiveId,
       textSearch: "dummy text",
     };
@@ -88,8 +88,8 @@ class Editor extends React.Component {
     if (prevProps.sidebaractiveId !== this.props.sidebaractiveId) {
       this.setState({ sidebaractiveId: this.props.sidebaractiveId });
     }
-    // console.log(prevState.editorData, this.state.editorData);
-    if (prevState.editorData !== this.state.editorData) {
+    console.log(prevState.editorData, this.state.editorData[0], typeof this.state.editorData);
+    if (prevState.editorData !== this.state.editorData && prevState.editorData != '') {
       this.handleEditorData();
     }
     if (prevProps.editorData !== this.props.editorData) {
@@ -123,8 +123,7 @@ const mapDispatchToProps = (dispatch) => ({
   saveEditor,
   fetchactiveId,
   updateEditor,
-  userInfo
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuth(Editor));
+export default connect(mapStateToProps, mapDispatchToProps)((Editor));
 

@@ -6,10 +6,9 @@ export const userInfo = () => {
   return async function(dispatch, getState) {
     let accessToken = localStorage.getItem("token");
     if (accessToken) {
-      console.log("kkkk")
       dispatch({ 
         type: SIGNIN_AUTH, 
-        payload: { token: accessToken, isSignedin: true, isLoggedin: true } 
+        payload: accessToken 
       })
       return true;      
     }

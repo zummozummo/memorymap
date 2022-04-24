@@ -11,6 +11,8 @@ import {
 	clone,
 	FindActiveFolPushNew,
 } from "../../helpers/utils/utils";
+import { withAuth } from '../../components/common/Smart/RequireAuthentication';
+
 // import { userInfo } from '../../store/actions/authActions';
 
 // import Quill from 'quill';
@@ -29,7 +31,8 @@ class GettingStarted extends React.Component {
             sidebarId: '',
             dummySidebar: { id: '', name: 'Untitled Doc', label: 'Untitled Doc', type: 'File', parent: '', delete: false },
             sidebarList: [],
-            isLoggedin: props.isLoggedin
+            isLoggedin: props.isLoggedin,
+            isSignedin: props.isSignedin
         }
     }
 
@@ -38,13 +41,25 @@ class GettingStarted extends React.Component {
         this.setState({ sidebarId })
     }
 
-    componentDidMount(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.isSignedin !== this.props.isSignedin || prevProps?.isLoggedin !== this.props?.isLoggedin) {
+          this.setState({ isSignedin: this.props.isSignedin, isLoggedin: this.props.isLoggedin  },()=>{
+            this.handleData()
+          });
+        }
+    }
 
-            if (this.props.isLoggedin && this.props.isSignedin) {
-                // this.fetchData()
+    componentDidMount() {
+        this.handleData()
+    }
+
+    handleData() {
+            console.log(this.state.isLoggedin, this.state.isSignedin, this.props?.token)
+            if (this.state.isLoggedin && this.state.isSignedin) {
+console.log("i")                
                 getBlock(this.props?.token).then((response) => {
                         const newList = clone(this.props?.sidebarList)
-                        for (let node of response.value) {
+                        for (let node of response?.value) {
                             newList.items.push(node)
                         }
                         this.props.updateSideBar(newList)
@@ -53,7 +68,8 @@ class GettingStarted extends React.Component {
                             this.props?.saveEditor(response?.value)    // not required actually
                         })
                 })
-            } else if (!this.props.isLoggedin && this.props.isSignedin) {
+            } else if (!this.state.isLoggedin && this.state.isSignedin) {
+console.log("2")                
                 const editorRequest = { "value": [""], "type": 'editor-file' }
                 typeof window !== 'undefined' && this.props.setAuthId(localStorage.getItem('token'))        //doubt in syntax
                 createBlock(editorRequest).then((response) => {
@@ -86,10 +102,12 @@ class GettingStarted extends React.Component {
 
     render() {
         const { sidebarId, sidebarList } = this.state;
+        const { isLoggedin, isSignedin } = this.props;
+
         return (
             <div>
-                <Sidebar sidebarId={sidebarId} createEditor={this.createEditor} />
-                <Editor saveSidebarId={this.saveSidebarId}/>
+                {<Sidebar sidebarId={sidebarId} createEditor={this.createEditor} />}
+                {<Editor saveSidebarId={this.saveSidebarId}/>}
             </div>
         )
 
@@ -120,4 +138,4 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(GettingStarted);
+export default connect(mapStateToProps, mapDispatchToProps)(withAuth(GettingStarted));
