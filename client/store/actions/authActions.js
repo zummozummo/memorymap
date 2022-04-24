@@ -7,7 +7,21 @@ export const userInfo = () => {
     let accessToken = localStorage.getItem("token");
     if (accessToken) {
       dispatch({ 
-        type: SIGNIN_AUTH, 
+        type: SIGNUP_AUTH, 
+        payload: accessToken 
+      })
+      return true;      
+    }
+    dispatch({ type: DESTROY_SESSION });
+  }
+}
+
+export const signin = () => {
+  return async function(dispatch, getState) {
+    let accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      dispatch({ 
+        type: SIGNUP_AUTH, 
         payload: accessToken 
       })
       return true;      

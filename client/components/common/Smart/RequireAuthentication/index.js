@@ -5,7 +5,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { userInfo } from "../../../../store/actions/authActions";
+import { userInfo, signin } from "../../../../store/actions/authActions";
 import { useDispatch } from 'react-redux';
 
 export const withAuth = Component => props => {
@@ -16,9 +16,13 @@ export const withAuth = Component => props => {
             const { data } = await axios.get("/api/users/currentuser");
             const id = data?.currentUser?.id
             if (id) {
-                console.log("in", id, typeof id)
+                console.log("in", props)
                 localStorage.setItem('token',id);
-                dispatch(userInfo())
+                if (props.isSignedin && !props.isLoggedin) {
+                    dispatch(userInfo())
+                } else if (props.isSignedin && props.isLoggedin) {
+                    dispatch(signin())
+                }
             } else {
 
             }
