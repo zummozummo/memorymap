@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Fragment } from "react";
 import axios from "axios";
-import Layout from '../components/Layouts/Layout';
+import Layout from "../components/Layouts/Layout";
 
 function HomePage({ user }) {
   console.log(user);
@@ -9,12 +9,14 @@ function HomePage({ user }) {
     <Fragment>
       <Head>
         <title>Memory Map</title>
+        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
         <meta name="description" content="Map your memory" />
       </Head>
-      <Layout/>
+      <Layout />
     </Fragment>
   );
 }
+
 // export async function getServerSideProps({ req }) {
 //   let user = "";
 //   if (typeof window === "undefined") {
