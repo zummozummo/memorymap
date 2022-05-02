@@ -5,7 +5,6 @@ class Sidebar extends React.Component {
     constructor(props) {
         super(props)
     }
-
     render() {
 
         const SidebarData = [

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Provider } from "react-redux";
 import cookie from "js-cookie";
 import '../styles/globals.css';
-import Layout from '../components/Layouts/Layout';
+import Layout from '../components/Layouts/Layout';3
 import { wrapper } from "../store/index"
 import { useEffect, useState } from 'react';
 import { userInfo } from '../store/actions/authActions';

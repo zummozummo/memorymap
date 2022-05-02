@@ -24,7 +24,7 @@ class SignUp extends React.Component {
 
 		const data = {
 			email: this.state.email,
-            password: this.state.password
+			password: this.state.password
 		}
 		this.props.signup(data)
 	}
@@ -49,9 +49,10 @@ class SignUp extends React.Component {
 	// }
 
 
-	componentDidUpdate(prevState,prevProps) {
+	componentDidUpdate(prevState, prevProps) {
 		if (this.props.token) {
-			Router.push("/getting-started");
+			Router.push("/");
+			// Router.push("/getting-started");
 		}
 	}
 
@@ -134,7 +135,7 @@ class SignUp extends React.Component {
 						{errors.length > 0 && <div>
 							<h4>Ooops...</h4>
 							<ul>{errors.map(err => <li key={err.message}>{err.message}</li>)}</ul>
-						</div>}							
+						</div>}
 						<div className={classes.buttonField}> <button className={classes.button} type="submit" > JOIN US </button></div >
 					</form>
 				</div >
@@ -145,8 +146,8 @@ class SignUp extends React.Component {
 
 const mapStateToProps = state => {
 	return { token: state?.authentication?.token }
-   }
-   
+}
+
 const mapDispatchToProps = {
 	signup
 }
