@@ -10,7 +10,6 @@ export const userInfo = () => {
         type: SIGNUP_AUTH, 
         payload: accessToken 
       })
-      
       return true;      
     }
     dispatch({ type: DESTROY_SESSION });
