@@ -10,6 +10,20 @@ spec:
     - host: memorymap.dev
       http:
         paths:
+          - path: /websockettest/.*
+            pathType: Prefix
+            backend:
+              service:
+                name: realtime-srv
+                port:
+                  number: 3000
+          - path: /socket.io/.*
+            pathType: Prefix
+            backend:
+              service:
+                name: realtime-srv
+                port:
+                  number: 3000
           - path: /api/users/?(.*)
             pathType: Prefix
             backend:
@@ -31,4 +45,3 @@ spec:
                 name: client-srv
                 port:
                   number: 3000
-

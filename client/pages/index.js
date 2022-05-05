@@ -7,21 +7,20 @@ import SlugRedirect from "../components/common/Smart/SlugRedirect";
 function HomePage({ user }) {
   console.log(user);
   return (
-    // <Fragment>
-    //   <Head>
-    //     <title>Memory Map</title>
-    //     <meta name="description" content="Map your memory" />
-    //   </Head>
-    //   <Layout />
-    // </Fragment>
-    user?.currentUser ? (
+    <Fragment>
+      <Head>
+        <title>Memory Map</title>
+        <meta name="description" content="Map your memory" />
+        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+      </Head>
+      <Layout />
+      user?.currentUser ? (
       <div>
         <SlugRedirect user={user.currentUser} />
         <Layout />
       </div>
-    ) : (
-      <div>not logged in</div>
-    )
+      ) : (<div>not logged in</div>)
+    </Fragment>
   );
 }
 export async function getServerSideProps({ req }) {

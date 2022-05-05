@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import axios from "axios";
+import { Fragment } from "react";
+import Head from "next/head";
 import { useEffect, useState } from "react";
+import TextEditorNew from "../../components/common/Smart/EditorNew/Editornew";
 export default function Workspace(props) {
   const [workspace, setWorkspace] = useState(null);
   const router = useRouter();
@@ -29,7 +32,14 @@ export default function Workspace(props) {
   useEffect(() => {
     console.log(workspace);
   }, [workspace]);
-  return workspace ? <div>slug</div> : <div>loading</div>;
+  return (
+    <Fragment>
+      <Head>
+        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+      </Head>
+      <TextEditorNew />
+    </Fragment>
+  );
 }
 
 export async function getServerSideProps({ req }) {
