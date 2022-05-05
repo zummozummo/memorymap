@@ -16,7 +16,6 @@ router.post(
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     const { type, value } = req.body;
-    console.log(value);
     if (type === "sidebar") {
       const id = req.currentUser?.id;
       const block = new Block({ id, type, value });
@@ -34,7 +33,9 @@ router.post(
     } else if (type === "editor-folder") {
       const id = uuidv4();
       console.log(id);
-      res.status(201).send({ id, type });
+      const block = new Block({ id, type, value });
+      await block.save();
+      res.status(201).send({ id, type, value });
     }
   }
 );

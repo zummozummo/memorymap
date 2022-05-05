@@ -1,7 +1,15 @@
-import { AUTHENTICATE, SIGNOUT_AUTH, SIGNUP_AUTH, SIGNIN_AUTH } from "../actionTypes";
+import {
+  AUTHENTICATE,
+  SIGNOUT_AUTH,
+  SIGNUP_AUTH,
+  SIGNIN_AUTH,
+} from "../actionTypes";
 import { HYDRATE } from "next-redux-wrapper";
 
-const authReducer = (state = { token: null, isSignedin: false, isLoggedin: false }, action) => {
+const authReducer = (
+  state = { token: null, isSignedin: false, isLoggedin: false },
+  action
+) => {
   // console.log(action)
   switch (action.type) {
     case HYDRATE:
@@ -12,7 +20,12 @@ const authReducer = (state = { token: null, isSignedin: false, isLoggedin: false
     case AUTHENTICATE:
       return { ...state, token: action.payload, isLoggedin: true };
     case SIGNUP_AUTH:
-      return { ...state, token: action.payload, isSignedin: true, isLoggedin: false };
+      return {
+        ...state,
+        token: action.payload,
+        isSignedin: true,
+        isLoggedin: false,
+      }; //Signedin ==Signup
     case SIGNIN_AUTH:
       return { ...state, token: action.payload, isLoggedin: true };
     case SIGNOUT_AUTH:
