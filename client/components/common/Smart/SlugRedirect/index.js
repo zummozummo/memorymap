@@ -9,9 +9,9 @@ export default function SlugRedirect(props) {
       try {
         const response = await axios.get(`/api/block/${props.user.id}`);
         console.log(response);
-        router.push(`/${response.data.value[0].id}`);
+        router.push(`/${response.data.value[0].children[0].id}`);
       } catch (err) {
-        if ((err.response.status = 404)) {
+        if (err.response.status === 404) {
           console.log("initial workspace");
           console.log(err);
           createInitialWorkspace(props.user.id).then((result) => {

@@ -16,26 +16,21 @@ router.post(
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     const { type, value } = req.body;
+    console.log(value);
     if (type === "sidebar") {
       const id = req.currentUser?.id;
-      const block = new Block({ id, type, value });
+      const block = new Block({ _id: id, type, value });
       await block.save();
       res.status(201).send(block);
-    } else if (type === "editor-file") {
+    } else if (type === "editor-file" || type === "editor-folder") {
       if (typeof value == "undefined" && value == null) {
         return next(new BadRequestError("Value must be specified"));
       }
       const id = uuidv4();
       console.log(id);
-      const block = new Block({ id, type, value });
+      const block = new Block({ type, value });
       await block.save();
-      res.status(201).send({ id, type, value });
-    } else if (type === "editor-folder") {
-      const id = uuidv4();
-      console.log(id);
-      const block = new Block({ id, type, value });
-      await block.save();
-      res.status(201).send({ id, type, value });
+      res.status(201).send({ id: block.id, type, value });
     }
   }
 );

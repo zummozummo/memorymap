@@ -1,19 +1,39 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "quill/dist/quill.snow.css";
-import { io } from "socket.io-client";
-import axios from "axios";
-// import Quill from "quill";
-export default function TextEditorNew() {
+export default function TextEditorNew(props) {
+  console.log(props);
+  const room = props.room;
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
+
   useEffect(() => {
-    const socket = io("/websockettest");
-    console.log(socket);
-    setSocket(socket);
-    return () => {
-      socket.disconnect();
-    };
+    if (socket == null || quill == null) return;
+    socket.once("load-document", (document) => {
+      console.log("load document");
+      console.log(document);
+      //[{ insert: document[0] }, { insert: "\n" }]
+      quill.setContents(document);
+      quill.enable();
+    });
+    socket.emit("get-document", room, props.currentblock);
+  }, [socket, quill, room]);
+
+  useEffect(() => {
+    console.log(props.socket);
+    setSocket(props.socket);
   }, []);
+
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+    const interval = setInterval(() => {
+      console.log(quill.getContents());
+      socket.emit("save-document", quill.getContents());
+    }, 5000);
+
+    // return () => {
+    //   clearInterval(interval);
+    // };
+  }, [socket, quill]);
 
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -49,6 +69,8 @@ export default function TextEditorNew() {
     wrapper.append(editor);
     const q = new Quill(editor, { theme: "snow" });
     console.log(q);
+    q.disable();
+    q.setText("Loading...");
     setQuill(q);
   }, []);
   return <div id="container" ref={wrapperRef}></div>;

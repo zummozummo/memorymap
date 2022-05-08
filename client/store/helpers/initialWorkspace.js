@@ -14,7 +14,11 @@ export default async function createInitialWorkspace(authId) {
   const responsefile = await axios({
     method: "post",
     url: "/api/block",
-    data: initialEditorFile,
+    data: {
+      id: responseEditor.data.id,
+      value: [{ insert: "hello" }, { insert: "\n" }],
+      type: "editor-file",
+    },
     headers: {
       "Content-Type": "application/json",
     },
@@ -50,5 +54,5 @@ export default async function createInitialWorkspace(authId) {
     },
   });
   console.log(responseSidbar.data.value[0].id);
-  return responseSidbar.data.value[0].id;
+  return responseSidbar.data.value[0].children[0].id;
 }

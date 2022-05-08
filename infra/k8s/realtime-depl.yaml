@@ -15,6 +15,12 @@ spec:
       containers:
         - name: realtime
           image: vinkum655/realtime
+          env:
+            - name: ATLAS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: atlas-secret
+                  key: ATLAS_PASS
 ---
 apiVersion: v1
 kind: Service

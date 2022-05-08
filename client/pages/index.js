@@ -34,7 +34,17 @@ export async function getServerSideProps({ req }) {
     );
     user = data;
   }
+  console.log("from server side");
   console.log(user);
+  if (!user.currentUser) {
+    return {
+      redirect: {
+        destination: "/auth/SignUp",
+        permanent: false,
+      },
+      props: {},
+    };
+  }
   return {
     props: {
       user,

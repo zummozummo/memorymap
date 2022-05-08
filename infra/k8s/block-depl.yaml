@@ -17,12 +17,17 @@ spec:
           image: vinkum655/block
           env:
             - name: MONGO_URI
-              value: 'mongodb://block-mongo-srv:27017/block' 
+              value: "mongodb://block-mongo-srv:27017/block"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+            - name: ATLAS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: atlas-secret
+                  key: ATLAS_PASS
 ---
 apiVersion: v1
 kind: Service

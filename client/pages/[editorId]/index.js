@@ -2,13 +2,15 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { Fragment } from "react";
 import Head from "next/head";
+import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 import TextEditorNew from "../../components/common/Smart/EditorNew/Editornew";
+import Sidebarnew from "../../components/common/Smart/Sidebarnew";
 export default function Workspace(props) {
   const [workspace, setWorkspace] = useState(null);
   const router = useRouter();
   useEffect(() => {
-    let data = { sidebar: [], editor: [], profile: [] };
+    let data = { sidebar: [], editor: [], profile: [], socket: null };
     data.profile = props.user.currentUser;
     async function fetchSidebar() {
       try {
@@ -24,20 +26,39 @@ export default function Workspace(props) {
       } catch (err) {
         console.log(err);
       } finally {
+        const socket = io("/websockettest");
+        data.socket = socket;
         setWorkspace(data);
       }
     }
     fetchSidebar();
+    return () => {
+      console.log("Socket disconnected");
+      console.log(data.socket);
+      data.socket.disconnect();
+    };
   }, []);
-  useEffect(() => {
-    console.log(workspace);
-  }, [workspace]);
-  return (
+
+  return workspace ? (
     <Fragment>
       <Head>
         <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
       </Head>
-      <TextEditorNew />
+      <div style={{ paddingLeft: 500, width: 600 }}>
+        <TextEditorNew
+          currentblock={router.query.editorId}
+          socket={workspace.socket}
+          room={props.user.currentUser.id}
+        />
+      </div>
+      <Sidebarnew data={workspace.sidebar} socket={workspace.socket} />
+    </Fragment>
+  ) : (
+    <Fragment>
+      <Head>
+        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+      </Head>
+      <div>loading</div>
     </Fragment>
   );
 }
@@ -54,7 +75,7 @@ export async function getServerSideProps({ req }) {
     user = data;
   }
   console.log(user);
-  if (!user) {
+  if (!user.currentUser) {
     return {
       redirect: {
         destination: "/auth/SignUp",

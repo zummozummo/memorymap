@@ -31,6 +31,11 @@ spec:
                 secretKeyRef:
                   name: google-secret
                   key: GOOGLE_SEC
+            - name: ATLAS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: atlas-secret
+                  key: ATLAS_PASS
 ---
 apiVersion: v1
 kind: Service
