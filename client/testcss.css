@@ -1,0 +1,14 @@
+.mydiv {
+  background-color: red;
+}
+
+.content-box {
+  width: 500px;
+  background-color: blue;
+  border: 2px solid;
+}
+.scale {
+  width: 500px;
+  height: 50px;
+  background: brown;
+}

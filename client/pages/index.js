@@ -1,26 +1,17 @@
-import Head from "next/head";
-import { Fragment } from "react";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
+import Styles from "../styles/Home.module.css";
+import Main from "../components/Main";
+import Footer from "../components/Footer";
 import axios from "axios";
-import Layout from "../components/Layouts/Layout";
-import { connect } from "react-redux";
-import SlugRedirect from "../components/common/Smart/SlugRedirect";
-function HomePage({ user }) {
+export default function Home({ user }) {
   console.log(user);
   return (
-    <Fragment>
-      <Head>
-        <title>Memory Map</title>
-        <meta name="description" content="Map your memory" />
-        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
-      </Head>
-      <Layout />
-      user?.currentUser ? (
-      <div>
-        <SlugRedirect user={user.currentUser} />
-        <Layout />
-      </div>
-      ) : (<div>not logged in</div>)
-    </Fragment>
+    <div className={Styles.home_container}>
+      <Header />
+      <Main />
+      <Footer />
+    </div>
   );
 }
 export async function getServerSideProps({ req }) {
@@ -36,25 +27,26 @@ export async function getServerSideProps({ req }) {
   }
   console.log("from server side");
   console.log(user);
-  if (!user.currentUser) {
-    return {
-      redirect: {
-        destination: "/auth/SignUp",
-        permanent: false,
-      },
-      props: {},
-    };
-  }
+
   return {
     props: {
       user,
     },
   };
 }
-function mapStateToProps(state) {
-  console.log(state);
-  return {
-    test: "test",
-  };
-}
-export default connect(mapStateToProps)(HomePage);
+
+const structure = {
+  type: "folder",
+  name: "src",
+  childrens: [
+    {
+      type: "folder",
+      name: "Components",
+      childrens: [
+        { type: "file", name: "Modal.js" },
+        { type: "file", name: "Modal.css" },
+      ],
+    },
+    { type: "file", name: "package.json" },
+  ],
+};

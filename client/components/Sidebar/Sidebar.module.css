@@ -1,0 +1,5 @@
+.sidebar_container {
+  display: grid;
+  background-color: aqua;
+  grid-template-rows: auto 1fr;
+}

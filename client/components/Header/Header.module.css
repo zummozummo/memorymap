@@ -1,0 +1,22 @@
+.header_container {
+  background-color: aqua;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.brand_title {
+  font-size: 1.5rem;
+  margin: 0.5rem;
+}
+
+.header_container ul {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+}
+
+.header_container li {
+  list-style: none;
+  padding: 1rem;
+}

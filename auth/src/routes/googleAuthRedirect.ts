@@ -90,6 +90,11 @@ router.get("/api/users/google/callback", async (req, res) => {
 
     req.session!.jwt = userJWT;
     console.log("new user");
+    res.cookie("jwt", userJWT, {
+      maxAge: 900000,
+      httpOnly: true,
+      secure: false,
+    });
     res.redirect("https://memorymap.dev");
     //res.status(200).send(user);
   } else {
@@ -106,6 +111,12 @@ router.get("/api/users/google/callback", async (req, res) => {
         process.env.JWT_KEY!
       );
       req.session!.jwt = userJWT;
+
+      res.cookie("jwt", userJWT, {
+        maxAge: 900000,
+        httpOnly: true,
+        secure: false,
+      });
     }
     console.log(req.session!.jwt);
     res.redirect("https://memorymap.dev");
