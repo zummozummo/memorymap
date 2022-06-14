@@ -16,6 +16,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: vinkum655/newauth
+      context: newauth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
     - image: vinkum655/client
       context: client
       docker:

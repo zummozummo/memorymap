@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newauth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newauth
+  template:
+    metadata:
+      labels:
+        app: newauth
+    spec:
+      containers:
+        - name: newauth
+          image: vinkum655/newauth
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mail-secret
+                  key: MAIL_PASS
+            - name: GOOGLE_SEC
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: GOOGLE_SEC
+            - name: ATLAS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: atlas-secret
+                  key: ATLAS_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: newauth-srv
+spec:
+  selector:
+    app: newauth
+  ports:
+    - name: newauth
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
