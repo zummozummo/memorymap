@@ -1,9 +1,20 @@
 import { useState } from "react";
 import axios from "axios";
+import useRequest from "../../hooks/use-request.js";
+import Router from "next/router";
 export default function signup() {
+  //const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const { doRequest, errors } = useRequest({
+    url: "/api/auth/signup",
+    method: "post",
+    body: {
+      email,
+      password,
+    },
+    onSuccess: () => Router.push("/"),
+  });
   function updateEmail(e) {
     setEmail(e.target.value);
   }
@@ -11,18 +22,8 @@ export default function signup() {
     setPassword(e.target.value);
   }
   const submitHandler = async (e) => {
-    console.log("value");
     e.preventDefault();
-    try {
-      const response = await axios.post("/api/users/signup", {
-        email,
-        password,
-      });
-      console.log(response.data);
-    } catch (err) {
-      console.log(err.response.data);
-      setErrors(err.response.data.errors);
-    }
+    await doRequest();
   };
   return (
     <form onSubmit={submitHandler}>
@@ -45,7 +46,7 @@ export default function signup() {
           onChange={updatePassword}
         ></input>
       </div>
-      <div>{errors.map((err) => err.message)}</div>
+      <div>{errors ? errors.map((err) => err.message) : null}</div>
       <div>
         <input type="submit" value="Signup"></input>
       </div>

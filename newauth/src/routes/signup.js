@@ -18,7 +18,7 @@ router.post(
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      throw new RequestValidationError(errors.array());
+      return next(new RequestValidationError(errors.array()));
     }
     const { email } = req.body;
     const { password } = req.body;
@@ -26,7 +26,7 @@ router.post(
     console.log(existingUser);
     if (existingUser) {
       console.log("email in use");
-      next(new BadRequestError("Email in use"));
+      return next(new BadRequestError("Email in use"));
     } else {
       const user = new User({
         email,
@@ -50,6 +50,7 @@ router.post(
         maxAge: 3600000,
       });
       await user.save();
+      console.log(user);
       res.status(201).send(user);
     }
   }

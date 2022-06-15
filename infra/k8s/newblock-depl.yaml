@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newblock-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: newblock
+  template:
+    metadata:
+      labels:
+        app: newblock
+    spec:
+      containers:
+        - name: newblock
+          image: vinkum655/newblock
+          env:
+            - name: MONGO_URI
+              value: "mongodb://block-mongo-srv:27017/block"
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: ATLAS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: atlas-secret
+                  key: ATLAS_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: newblock-srv
+spec:
+  selector:
+    app: newblock
+  ports:
+    - name: newblock
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

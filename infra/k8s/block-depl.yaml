@@ -1,43 +1,43 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: block-depl
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: block
-  template:
-    metadata:
-      labels:
-        app: block
-    spec:
-      containers:
-        - name: block
-          image: vinkum655/block
-          env:
-            - name: MONGO_URI
-              value: "mongodb://block-mongo-srv:27017/block"
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-secret
-                  key: JWT_KEY
-            - name: ATLAS_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: atlas-secret
-                  key: ATLAS_PASS
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: block-srv
-spec:
-  selector:
-    app: block
-  ports:
-    - name: block
-      protocol: TCP
-      port: 3000
-      targetPort: 3000
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: block-depl
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: block
+#   template:
+#     metadata:
+#       labels:
+#         app: block
+#     spec:
+#       containers:
+#         - name: block
+#           image: vinkum655/block
+#           env:
+#             - name: MONGO_URI
+#               value: "mongodb://block-mongo-srv:27017/block"
+#             - name: JWT_KEY
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: jwt-secret
+#                   key: JWT_KEY
+#             - name: ATLAS_PASS
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: atlas-secret
+#                   key: ATLAS_PASS
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: block-srv
+# spec:
+#   selector:
+#     app: block
+#   ports:
+#     - name: block
+#       protocol: TCP
+#       port: 3000
+#       targetPort: 3000

@@ -16,7 +16,7 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/login">Signup</Link>
+            <Link href="/signup">Signup</Link>
           </li>
         </ul>
       </div>

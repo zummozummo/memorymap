@@ -32,13 +32,13 @@ build:
         manual:
           - src: "**/*.js"
             dest: .
-    - image: vinkum655/block
-      context: block
+    - image: vinkum655/newblock
+      context: newblock
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: "src/**/*.ts"
+          - src: "**/*.js"
             dest: .
     - image: vinkum655/realtime
       context: realtime
