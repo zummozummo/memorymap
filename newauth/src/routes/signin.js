@@ -50,7 +50,7 @@ router.post(
       res.cookie("jwt", userJWT, {
         httpOnly: true,
         secure: false,
-        maxAge: 3600000,
+        maxAge: 3600000000,
       });
       res.status(200).send(existingUser);
     }

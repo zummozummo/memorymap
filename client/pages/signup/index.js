@@ -13,7 +13,7 @@ export default function signup() {
       email,
       password,
     },
-    onSuccess: () => Router.push("/"),
+    onSuccess: (reslut) => Router.push("/"),
   });
   function updateEmail(e) {
     setEmail(e.target.value);

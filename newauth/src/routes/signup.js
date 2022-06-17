@@ -16,7 +16,9 @@ router.post(
       .withMessage("Password must be b/w 4 and 20 characters"),
   ],
   async (req, res, next) => {
+    console.log("Singup");
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
       return next(new RequestValidationError(errors.array()));
     }
@@ -47,7 +49,7 @@ router.post(
       res.cookie("jwt", userJWT, {
         httpOnly: true,
         secure: false,
-        maxAge: 3600000,
+        maxAge: 3600000000,
       });
       await user.save();
       console.log(user);

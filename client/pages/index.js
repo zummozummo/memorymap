@@ -18,16 +18,13 @@ export async function getServerSideProps({ req }) {
   let user = "";
   if (typeof window === "undefined") {
     const { data } = await axios.get(
-      "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser",
+      "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/auth/currentuser",
       {
         headers: req.headers,
       }
     );
     user = data;
   }
-  console.log("from server side");
-  console.log(user);
-
   return {
     props: {
       user,
