@@ -11,7 +11,7 @@ class SidebarItem extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
   render() {
     let {
       label,
@@ -34,39 +34,39 @@ class SidebarItem extends React.Component {
     // console.log(subItem);
     return (
       <div>
-        
-        {subItem && !subItem.delete && 
-        // <Draggable key={id} draggableId={id} index={index}>
-        // {(provided) => 
+
+        {subItem && !subItem.delete &&
+          // <Draggable key={id} draggableId={id} index={index}>
+          // {(provided) => 
           (<div style={{ paddingLeft: depth * depthStep }}>
-          <span 
-            // ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
-            onClick = {()=>{this.props.SetActive(subItem)}} style={{ color: id === activeId.id ? "red" : "black" }}>
-          {id}
-          {" "}
-          {type === "Folder" && <React.Fragment>
-          <span onClick = {()=>{SetActiveCallAdd(subItem,'editor-file')}}>file</span>
-          <span onClick = {()=>{SetActiveCallAdd(subItem,'editor-folder')}}>folder</span></React.Fragment>}
-          <span onClick = {()=>{SetDelete(subItem)}}>del</span>
-          </span>
-        </div>)}
-    {/* </Draggable>} */}
+            <span
+              // ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}
+              onClick={() => { this.props.SetActive(subItem) }} style={{ color: id === activeId.id ? "red" : "black" }}>
+              {id}
+              {" "}
+              {type === "Folder" && <React.Fragment>
+                <span onClick={() => { SetActiveCallAdd(subItem, 'editor-file') }}>file</span>
+                <span onClick={() => { SetActiveCallAdd(subItem, 'editor-folder') }}>folder</span></React.Fragment>}
+              <span onClick={() => { SetDelete(subItem) }}>del</span>
+            </span>
+          </div>)}
+        {/* </Draggable>} */}
         {!subItem?.delete && Array.isArray(items)
-          ? items.map((subItem,index) => (
-              <SidebarItem
-                index={index}
-                SetActive={SetActive} 
-                SetActiveCallAdd={SetActiveCallAdd}
-                SetDelete={SetDelete}
-                key={subItem.id}
-                id={subItem.id}
-                depth={depth + 1}
-                depthStep={depthStep}
-                activeId={activeId}
-                {...subItem}
-                subItem={subItem}
-              />
-            ))
+          ? items.map((subItem, index) => (
+            <SidebarItem
+              index={index}
+              SetActive={SetActive}
+              SetActiveCallAdd={SetActiveCallAdd}
+              SetDelete={SetDelete}
+              key={subItem.id}
+              id={subItem.id}
+              depth={depth + 1}
+              depthStep={depthStep}
+              activeId={activeId}
+              {...subItem}
+              subItem={subItem}
+            />
+          ))
           : null}
       </div>
     );
