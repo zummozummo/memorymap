@@ -1,28 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: block-depl
+  name: realtime-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: block
+      app: realtime
   template:
     metadata:
       labels:
-        app: block
+        app: realtime
     spec:
       containers:
-        - name: block
-          image: vinkum655/block
+        - name: realtime
+          image: vinkum655/realtime
           env:
-            - name: MONGO_URI
-              value: "mongodb://block-mongo-srv:27017/block"
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-secret
-                  key: JWT_KEY
             - name: ATLAS_PASS
               valueFrom:
                 secretKeyRef:
@@ -32,12 +25,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: block-srv
+  name: realtime-srv
 spec:
   selector:
-    app: block
+    app: realtime
   ports:
-    - name: block
+    - name: realtime
       protocol: TCP
       port: 3000
       targetPort: 3000

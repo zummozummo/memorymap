@@ -31,4 +31,12 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: .            
+            dest: .
+    - image: vinkum655/realtime
+      context: realtime
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .

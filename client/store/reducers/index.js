@@ -2,7 +2,6 @@ import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import editorReducer from "./editorReducer";
 import sidebarReducer from "./sidebarReducer";
-import userProfileReducer from "./userProfileReducer";
 
 // Clear all data in redux store to initial.
 
@@ -35,7 +34,6 @@ const appReducer = combineReducers({
   authentication: authReducer,
   sidebar: sidebarReducer,
   editor: editorReducer,
-  userProfile: userProfileReducer
 });
 
 const rootReducer = (state, action) => {
@@ -46,7 +44,6 @@ const rootReducer = (state, action) => {
       authentication: defaultAuth,
       sidebar: defaultSidebar,
       editor: defaultEditor,
-      userProfile: userProfileReducer
     };
   }
   // console.log(state);

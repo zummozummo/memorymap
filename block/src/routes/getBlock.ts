@@ -10,7 +10,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const existingBlock = await Block.findOne({ id });
+      const existingBlock = await Block.findOne({ _id: id });
       if (existingBlock) {
         res.send(existingBlock);
       } else {

@@ -1,81 +1,89 @@
 import { apiWrapper } from "../../helpers/apiWrapper";
-import { AUTHENTICATE, DEAUTHENTICATE, SIGNIN_AUTH, SIGNUP_AUTH, SIGNOUT_AUTH, DESTROY_SESSION } from "../actionTypes";
+import {
+  AUTHENTICATE,
+  DEAUTHENTICATE,
+  SIGNIN_AUTH,
+  SIGNUP_AUTH,
+  SIGNOUT_AUTH,
+  DESTROY_SESSION,
+} from "../actionTypes";
 import cookie from "js-cookie";
 
 export const userInfo = () => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     let accessToken = localStorage.getItem("token");
     if (accessToken) {
-      dispatch({ 
-        type: SIGNUP_AUTH, 
-        payload: accessToken 
-      })
-      
-      return true;      
+      dispatch({
+        type: SIGNUP_AUTH,
+        payload: accessToken,
+      });
+      return true;
     }
     dispatch({ type: DESTROY_SESSION });
-  }
-}
+  };
+};
 
 export const signin = () => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     let accessToken = localStorage.getItem("token");
     if (accessToken) {
-      dispatch({ 
-        type: SIGNUP_AUTH, 
-        payload: accessToken 
-      })
-      return true;      
+      dispatch({
+        type: SIGNUP_AUTH,
+        payload: accessToken,
+      });
+      return true;
     }
     dispatch({ type: DESTROY_SESSION });
-  }
-}
+  };
+};
 
 export const authenticate = (user) => (dispatch) =>
- apiWrapper.post(`/api/users/signin`, user).then((data) => {
-    setCookie("token", data.id);
-    localStorage.setItem("token", data.id);
-    dispatch({ type: SIGNIN_AUTH, payload: data.id });
-  })
-  .catch((err) => console.log(err));
+  apiWrapper
+    .post(`/api/users/signin`, user)
+    .then((data) => {
+      setCookie("token", data.id);
+      localStorage.setItem("token", data.id);
+      dispatch({ type: SIGNIN_AUTH, payload: data.id });
+    })
+    .catch((err) => console.log(err));
 
 export const signup = (user) => (dispatch) =>
- apiWrapper.post(`/api/users/signup`, user).then((data) => {
-    setCookie("token", data.id);
-    localStorage.setItem("token", data.id);
+  apiWrapper
+    .post(`/api/users/signup`, user)
+    .then((data) => {
+      dispatch({ type: SIGNUP_AUTH, payload: data.id });
+    })
+    .catch((err) => console.log(err));
 
-    dispatch({ type: SIGNUP_AUTH, payload: data.id });
-  })
-  .catch((err) => console.log(err));
+export const logout = () => (dispatch) =>
+  apiWrapper
+    .get(`/api/users/signout`)
+    .then((data) => {
+      setCookie("token", null);
+      localStorage.setItem("token", null);
 
-  export const logout = () => (dispatch) =>
-  apiWrapper.get(`/api/users/signout`).then((data) => {
-     setCookie("token", null);
-     localStorage.setItem("token", null);
- 
-    //  dispatch({ type: SIGNOUT_AUTH });
-    //  window.location.reload();
-     dispatch({ type: DESTROY_SESSION });
-   })
-   .catch((err) => console.log(err));
+      //  dispatch({ type: SIGNOUT_AUTH });
+      //  window.location.reload();
+      dispatch({ type: DESTROY_SESSION });
+    })
+    .catch((err) => console.log(err));
 
-  //  export const logout = () => (dispatch) =>
-  // console.log("llllllllllllllllllllllllllll");
-  // apiWrapper.get(`/api/users/signout`).then(() => {
-  //    setCookie("token", null);
-  //    localStorage.setItem("token", null);
- 
-  //    dispatch({ type: SIGNOUT_AUTH });
-  //  })
-  //  .catch((err) => console.log(err));
-   
-  
+//  export const logout = () => (dispatch) =>
+// console.log("llllllllllllllllllllllllllll");
+// apiWrapper.get(`/api/users/signout`).then(() => {
+//    setCookie("token", null);
+//    localStorage.setItem("token", null);
+
+//    dispatch({ type: SIGNOUT_AUTH });
+//  })
+//  .catch((err) => console.log(err));
+
 // export const login = (credentials) => async (dispatch) => {
 //     const response = await (useRequest({
 //         url: '/api/users/signin',
 //         method: 'post',
 //         body: {
-            
+
 //         }
 //     }))()
 //     if (response.errors) {
@@ -86,9 +94,7 @@ export const signup = (user) => (dispatch) =>
 //     }
 // }
 
-
 export const setCookie = (key, value) => {
-  
   if (process.browser) {
     cookie.set(key, value, {
       expires: 1,

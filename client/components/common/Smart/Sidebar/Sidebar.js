@@ -224,9 +224,9 @@ class Sidebar extends React.Component {
 			// <DragDropContext>
 			// 	<Droppable droppableId="characters">
 			// 		{(provided) => (
-			<SidebarItem
-				// {...provided.droppableProps} ref={provided.innerRef} provided={provided}
-				items={sidebarListItems} activeId={sidebaractiveId} SetActive={this.SetActive} SetActiveCallAdd={this.SetActiveCallAdd} SetDelete={this.SetDelete} />
+						<SidebarItem 
+						// {...provided.droppableProps} ref={provided.innerRef} provided={provided}
+						items={sidebarListItems} activeId={sidebaractiveId} SetActive={this.SetActive} SetActiveCallAdd={this.SetActiveCallAdd} SetDelete={this.SetDelete} />
 			// 		)}
 			// 	</Droppable>
 			// </DragDropContext>
@@ -280,7 +280,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state) => {
-	console.log(state, state?.sidebar, "store redcers object");
+	// console.log(state, state?.sidebar, "store redcers object");
 	return {
 		sidebarList: state?.sidebar?.data || [],
 		sidebarListItems: state?.sidebar?.data?.items || [],

@@ -1,37 +1,26 @@
 import Head from "next/head";
-import React, { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import axios from "axios";
-import Layout from '../components/Layouts/Layout';
-import SlugRedirect from '../components/common/Smart/SlugRedirect';
-import { userProfile } from '../store/actions/userProfileActions';
-import { useDispatch } from 'react-redux';
-
-
+import Layout from "../components/Layouts/Layout";
+import { connect } from "react-redux";
+import SlugRedirect from "../components/common/Smart/SlugRedirect";
 function HomePage({ user }) {
-
-  const dispatch = useDispatch();
-  console.log("user", user);
-
-  useEffect(() => {
-    console.log("user", dispatch);
-    dispatch(userProfile(user))
-  }, [user])
+  console.log(user);
   return (
-    // user?.currentUser ? 
-
-    <React.Fragment>
-      <SlugRedirect />
+    <Fragment>
+      <Head>
+        <title>Memory Map</title>
+        <meta name="description" content="Map your memory" />
+        <script src="//cdn.quilljs.com/1.3.6/quill.js"></script>
+      </Head>
       <Layout />
-    </React.Fragment>
-
-
-    // <Fragment>
-    //   <Head>
-    //     <title>Memory Map</title>
-    //     <meta name="description" content="Map your memory" />
-    //   </Head>
-    //   <Layout/>
-    // </Fragment>
+      user?.currentUser ? (
+      <div>
+        <SlugRedirect user={user.currentUser} />
+        <Layout />
+      </div>
+      ) : (<div>not logged in</div>)
+    </Fragment>
   );
 }
 export async function getServerSideProps({ req }) {
@@ -45,12 +34,27 @@ export async function getServerSideProps({ req }) {
     );
     user = data;
   }
+  console.log("from server side");
   console.log(user);
+  if (!user.currentUser) {
+    return {
+      redirect: {
+        destination: "/auth/SignUp",
+        permanent: false,
+      },
+      props: {},
+    };
+  }
   return {
     props: {
       user,
     },
   };
 }
-
-export default HomePage;
+function mapStateToProps(state) {
+  console.log(state);
+  return {
+    test: "test",
+  };
+}
+export default connect(mapStateToProps)(HomePage);
